@@ -6,22 +6,62 @@ import DeleteIcon from '@mui/icons-material/Delete';
 export default function EventSettings({ settings, updateSettings }) {
 
     const [state, setState] = useState("");
+
+    const getEvents = () => {
+        return JSON.parse(localStorage.getItem("events"));
+    }
+
+    const getMessages = () => {
+        return JSON.parse(localStorage.getItem("data"));
+    }
+
+    const eventExisted = (eventName) => {
+        let events = getEvents();
+        return events.includes(eventName);
+    }
     
     const saveChanges = () => {
         localStorage.setItem("events", JSON.stringify(settings.events));
     }
 
+    const deleteEventMessages = (eventName) => {
+        let messages = getMessages();
+        if (messages[eventName]) {
+            delete messages[eventName];
+        }
+        localStorage.setItem("data", JSON.stringify(messages));
+    }
+
+    const updateEventMessages = (index, newEventName) => {
+        let messages = getMessages();
+        let events = getEvents();
+    }
+
+    const saveEventInData = (eventName, value) => {
+        let data = JSON.parse(localStorage.getItem("data")) || {};
+        data[eventName] = data[eventName] ? data[eventName].push(value) : [value];
+        localStorage.setItem("data", JSON.stringify(data));
+    }
+
     const handleAdd = () => {
         if (!state) return;
+        if (eventExisted(state)) {
+            alert("Event already existed");
+            return;
+        }
         settings.events = [...settings.events, state];
         updateSettings({...settings});
         setState("");
         saveChanges();
+        saveEventInData(state, null);
     }
     
     const handleDelete = (index) => {
+        let eventName = settings.events[index];
         settings.events.splice(index, 1);
+        delete settings.data[eventName];
         updateSettings({ ...settings });
+        deleteEventMessages(eventName);
         saveChanges();
     }
 
