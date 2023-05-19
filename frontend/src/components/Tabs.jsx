@@ -8,9 +8,17 @@ export default function Tabs() {
 
     const [openTab, setOpenTab] = useState(0);
 
+    const [settings, updateSettings] = useState({
+        hosts: JSON.parse(localStorage.getItem("hosts")) || [],
+        connectionConfigs: JSON.parse(localStorage.getItem("connectionConfigs")) || [],
+        tokens: JSON.parse(localStorage.getItem("tokens")) || [],
+        events: JSON.parse(localStorage.getItem("events")) || [],
+        data: JSON.parse(localStorage.getItem("data")) || {}
+    });
+
     const tabs = generateArray([
         ["Events", <Events />],
-        ["Settings", <Settings />]
+        ["Settings", <Settings settings={settings} updateSettings={updateSettings}/>]
     ], "name", "el");
 
     const { color } = useContext(ThemeContext);
@@ -24,7 +32,7 @@ export default function Tabs() {
                         role="tablist"
                     >
                         {tabs.map((item, index) => (
-                            <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                            <li className="-mb-px mr-2 last:mr-0 flex-auto text-center" key={`tab-${index}`}>
                                 <a
                                     className={
                                         "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
@@ -47,7 +55,7 @@ export default function Tabs() {
                         <div className="px-4 py-5 flex-auto">
                             <div className="tab-content tab-space">
                                 {tabs.map((item, index) => (
-                                    <div className={openTab === index ? "block" : "hidden"} id={`link${index}`}>
+                                    <div className={openTab === index ? "block" : "hidden"} key={`tab-${index}`}id={`link${index}`}>
                                         {item.el}
                                     </div>
                                 ))}
