@@ -3,20 +3,20 @@ import Input from "../UI/Input";
 import Button from "../UI/Button";
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function TokenSettings({ settings, updateSettings }) {
+export default function Token({ settings, updateSettings }) {
 
     const [token, setToken] = useState({ note: "", token: "" });
-
-    const handleChangeInputAddEvent = ({ target: { name, value } }) => {
-        setToken({ ...token, [name]: value });
-    }
 
     const saveChanges = () => {
         localStorage.setItem("tokens", JSON.stringify(settings.tokens));
     }
 
+    const handleChange = ({ target: { name, value } }) => {
+        setToken({ ...token, [name]: value });
+    }
+
     const handleAdd = () => {
-        if (!token.token && !token.note) {
+        if (!token.token || !token.note) {
             alert("Please input note & token")
             return;
         }
@@ -42,17 +42,21 @@ export default function TokenSettings({ settings, updateSettings }) {
     return (
         <>
             <div className="mb-3 pt-0">
-                <Input placeholder="Note"
+                <Input
+                    placeholder="Note"
                     value={token.note}
                     name="note"
-                    onChange={handleChangeInputAddEvent}
+                    onChange={handleChange}
                 />
-                <Input placeholder="Token String"
+                <Input
+                    placeholder="Token String"
                     value={token.token}
                     name="token"
-                    onChange={handleChangeInputAddEvent}
+                    onChange={handleChange}
                 />
-                <Button type="button" onClick={handleAdd}>
+                <Button
+                    type="button"
+                    onClick={handleAdd}>
                     Add Token
                 </Button>
             </div>
@@ -61,11 +65,13 @@ export default function TokenSettings({ settings, updateSettings }) {
                     settings.tokens.length ?
                         settings.tokens.map((item, index) => (
                             <div key={`token-${index}`}>
-                                <Input name={`note-${index}`}
+                                <Input
+                                    name={`note-${index}`}
                                     value={item.note}
                                     onChange={handleUpdate}
                                 />
-                                <Input name={`token-${index}`}
+                                <Input
+                                    name={`token-${index}`}
                                     value={item.token}
                                     onChange={handleUpdate}
                                 />

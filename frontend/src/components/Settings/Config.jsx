@@ -3,51 +3,85 @@ import Input from "../UI/Input";
 import Button from "../UI/Button";
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function ConfigSettings({ settings, updateSettings }) {
+export default function Config({ settings, updateSettings }) {
 
-    const [state, setState] = useState("");
-    
+    const initialState = { key: "", value: "" };
+
+    const [config, setConfig] = useState(initialState);
+
     const saveChanges = () => {
         localStorage.setItem("configs", JSON.stringify(settings.configs));
     }
 
+    const handleChange = ({ target: { name, value } }) => {
+        setConfig({ ...config, [name]: value });
+    }
+
     const handleAdd = () => {
-        if (!state) return;
-        settings.configs = [...settings.configs, state];
-        updateSettings({...settings});
-        setState("");
+        if (!config.key || !config.value) {
+            alert("Please input key & value");
+            return;
+        }
+        settings.configs = { ...settings.configs, [config.key]: config.value };
+        updateSettings({ ...settings });
+        setConfig({ ...initialState });
         saveChanges();
     }
-    
-    const handleDelete = (index) => {
-        settings.configs.splice(index, 1);
+
+    const handleDelete = (key) => {
+        delete settings.configs[key];
         updateSettings({ ...settings });
         saveChanges();
     }
 
-    const handleUpdate = (index, event) => {
-        settings.configs[index] = event.target.value;
-        updateSettings({...settings});
+    const handleUpdate = ({ target: { name, value } }) => {
+        let [toUpdate, key] = name.split("-");
+        if (toUpdate === "value") {
+            settings.configs[key] = value;
+        }
+        else {
+            settings.configs[value] = JSON.parse(JSON.stringify(settings.configs[key]));
+            delete settings.configs[key];
+        }
+        updateSettings({ ...settings });
         saveChanges();
     }
 
     return (
         <>
             <div className="mb-3 pt-0">
-                <Input value={state} onChange={event => setState(event.target.value)} />
+                <Input
+                    placeholder="key"
+                    name="key"
+                    value={config.key}
+                    onChange={handleChange}
+                />
+                <Input
+                    placeholder="value"
+                    name="value"
+                    value={config.value}
+                    onChange={handleChange}
+                />
                 <Button type="button" onClick={handleAdd}>
                     Add Config
                 </Button>
             </div>
             <div className="mb-3 pt-0">
                 {
-                    settings.configs.length ?
-                        settings.configs.map((item, index) => (
-                            <div>
-                                <Input type="text" key={`configs-${index}`} name={`configs-${index}`} value={item}
-                                    onChange={(event) => handleUpdate(index, event)}
+                    Object.keys(settings.configs).length ?
+                        Object.keys(settings.configs).map((key, index) => (
+                            <div key={index}>
+                                <Input
+                                    name={`key-${key}`}
+                                    value={key}
+                                    onChange={handleUpdate}
                                 />
-                                <DeleteIcon onClick={() => handleDelete(index)} />
+                                <Input
+                                    name={`value-${key}`}
+                                    value={settings.configs[key]}
+                                    onChange={handleUpdate}
+                                />
+                                <DeleteIcon onClick={() => handleDelete(key)} />
                             </div>
                         ))
                         : null

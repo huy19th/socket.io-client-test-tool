@@ -1,13 +1,15 @@
-import HostSettings from "./Host";
-import TokenSettings from "./Token";
+import Host from "./Host";
+import Token from "./Token";
+import Config from "./Config";
 
-export default function Settings({ settings, updateSettings }) {
+export default function Settings(props) {
 
     return (
         <>
             <h1>Settings</h1>
-            <HostSettings settings={settings} updateSettings={updateSettings}/>
-            <TokenSettings settings={settings} updateSettings={updateSettings}/>
+            <Host {...props} />
+            <Token {...props} />
+            <Config {...props} />
         </>
 
     )
