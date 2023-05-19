@@ -1,18 +1,17 @@
 import { useState, useContext } from "react";
 import Events from "./Events";
-import Connection from "./Connection";
 import Settings from "./Settings";
 import { ThemeContext } from "../App";
+import generateArray from "../ultils/generateArray";
 
 export default function Tabs() {
 
     const [openTab, setOpenTab] = useState(0);
 
-    const tabs = [
-        { name: "Events", el: <Events /> },
-        { name: "Connection", el: <Connection /> },
-        { name: "Settings", el: <Settings /> }
-    ]
+    const tabs = generateArray([
+        ["Events", <Events />],
+        ["Settings", <Settings />]
+    ], "name", "el");
 
     const { color } = useContext(ThemeContext);
 

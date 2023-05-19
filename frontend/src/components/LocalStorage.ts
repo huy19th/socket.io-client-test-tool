@@ -1,7 +1,7 @@
 interface ILocalStorage {
     // connections
     hosts: string[];
-    connectOptions: {[key: string]: any};
+    connectionConfigs: {[key: string]: any};
     tokens: string[];
     // events
     events: string[];
