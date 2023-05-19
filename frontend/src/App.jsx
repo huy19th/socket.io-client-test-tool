@@ -9,6 +9,11 @@ export const SocketContext = createContext({
   setUpConnection: (io) => { }
 });
 
+export const ThemeContext = createContext({ 
+  color: "color",
+  setColor: (color) => {}
+});
+
 function App() {
 
   const [socket, setConnection] = useState({
@@ -20,13 +25,17 @@ function App() {
     setConnection({
       isConnected: true,
       io: io
-    })
+    });
   }
+
+  const [color, setColor] = useState("red");
 
   return (
     <SocketContext.Provider value={{ socket, setUpConnection }}>
-      <Tabs color="amber" />
-    </SocketContext.Provider>
+      <ThemeContext.Provider value={{ color, setColor }}>
+        <Tabs color="amber" />
+      </ThemeContext.Provider>
+    </SocketContext.Provider >
   );
 }
 
