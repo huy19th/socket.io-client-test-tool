@@ -2,42 +2,13 @@ import { useState, useContext } from "react";
 import { ThemeContext } from "../App";
 import generateArray from "../ultils/generateArray";
 import HostSettings from "./Settings/Host";
+import EventSettings from "./Settings/Event";
 
 export default function Settings({ settings, updateSettings }) {
 
     const { color } = useContext(ThemeContext);
 
     let events = JSON.parse(localStorage.getItem("events"));
-
-    const HOST = {
-        add: (host) => {
-            updateSettings({
-                ...settings,
-                hosts: settings.hosts.push(host)
-            });
-            localStorage.setItem("hosts", JSON.stringify(settings.hosts));
-        },
-        delete: (index) => {
-            settings.hosts.splice(index, 1);
-            updateSettings({ ...settings });
-            localStorage.setItem("hosts", JSON.stringify(settings.hosts));
-        }
-    }
-
-    const CONFIG = {
-        add: (config) => {
-            updateSettings({
-                ...settings,
-                configs: settings.configs.push(config)
-            });
-            localStorage.setItem("configs", JSON.stringify(settings.configs));
-        },
-        delete: (index) => {
-            settings.configs.splice(index, 1);
-            updateSettings({ ...settings });
-            localStorage.setItem("configs", JSON.stringify(settings.hosts));
-        }
-    }
 
     const data = generateArray([
         ["Add Host"],
@@ -62,6 +33,7 @@ export default function Settings({ settings, updateSettings }) {
                 ))
             } */}
             <HostSettings settings={settings} updateSettings={updateSettings}/>
+            <EventSettings settings={settings} updateSettings={updateSettings} />
             <div className="mb-3 pt-0">
                 <select>
                     {events ? events.map((item, index) => <option value={item} key={`event-${index}`}>{item}</option>) : null}
