@@ -1,15 +1,21 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Events from "./Events";
 import Connection from "./Connection";
 import Settings from "./Settings";
+import { ThemeContext } from "../App";
 
-export default function Tabs({ color }) {
+export default function Tabs() {
+
     const [openTab, setOpenTab] = useState(0);
+
     const tabs = [
         { name: "Events", el: <Events /> },
         { name: "Connection", el: <Connection /> },
         { name: "Settings", el: <Settings /> }
     ]
+
+    const { color } = useContext(ThemeContext);
+
     return (
         <>
             <div className="flex flex-wrap">
