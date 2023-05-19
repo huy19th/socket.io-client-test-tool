@@ -10,15 +10,17 @@ export default function Tabs() {
 
     const [settings, updateSettings] = useState({
         hosts: JSON.parse(localStorage.getItem("hosts")) || [],
-        connectionConfigs: JSON.parse(localStorage.getItem("connectionConfigs")) || [],
+        configs: JSON.parse(localStorage.getItem("configs")) || {},
         tokens: JSON.parse(localStorage.getItem("tokens")) || [],
         events: JSON.parse(localStorage.getItem("events")) || [],
         data: JSON.parse(localStorage.getItem("data")) || {}
     });
 
+    const props = { settings, updateSettings };
+
     const tabs = generateArray([
-        ["Events", <Events />],
-        ["Settings", <Settings settings={settings} updateSettings={updateSettings}/>]
+        ["Events", <Events {...props} />],
+        ["Settings", <Settings {...props} />]
     ], "name", "el");
 
     const { color } = useContext(ThemeContext);
@@ -55,7 +57,7 @@ export default function Tabs() {
                         <div className="px-4 py-5 flex-auto">
                             <div className="tab-content tab-space">
                                 {tabs.map((item, index) => (
-                                    <div className={openTab === index ? "block" : "hidden"} key={`tab-${index}`}id={`link${index}`}>
+                                    <div className={openTab === index ? "block" : "hidden"} key={`tab-${index}`} id={`link${index}`}>
                                         {item.el}
                                     </div>
                                 ))}

@@ -3,7 +3,7 @@ import Input from "../UI/Input";
 import Button from "../UI/Button";
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function EventSettings({ settings, updateSettings }) {
+export default function Events({ settings, updateSettings }) {
 
     const [state, setState] = useState("");
 
@@ -17,9 +17,10 @@ export default function EventSettings({ settings, updateSettings }) {
 
     const eventExisted = (eventName) => {
         let events = getEvents();
-        return events.includes(eventName);
+        if (events) return events.includes(eventName);
+        return false;
     }
-    
+
     const saveChanges = () => {
         localStorage.setItem("events", JSON.stringify(settings.events));
     }
@@ -33,8 +34,11 @@ export default function EventSettings({ settings, updateSettings }) {
     }
 
     const updateEventMessages = (index, newEventName) => {
+        let oldEventName = getEvents()[index];
         let messages = getMessages();
-        let events = getEvents();
+        messages[newEventName] = JSON.parse(JSON.toString(messages[oldEventName]));
+        delete messages[oldEventName];
+        localStorage.setItem("data", JSON.stringify(messages));
     }
 
     const saveEventInData = (eventName, value) => {
@@ -50,12 +54,12 @@ export default function EventSettings({ settings, updateSettings }) {
             return;
         }
         settings.events = [...settings.events, state];
-        updateSettings({...settings});
+        updateSettings({ ...settings });
         setState("");
         saveChanges();
         saveEventInData(state, null);
     }
-    
+
     const handleDelete = (index) => {
         let eventName = settings.events[index];
         settings.events.splice(index, 1);
@@ -67,7 +71,7 @@ export default function EventSettings({ settings, updateSettings }) {
 
     const handleUpdate = (index, event) => {
         settings.events[index] = event.target.value;
-        updateSettings({...settings});
+        updateSettings({ ...settings });
         saveChanges();
     }
 
