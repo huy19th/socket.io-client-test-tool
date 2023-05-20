@@ -22,7 +22,7 @@ export default function Home() {
     ], "name", "el");
 
     return (
-        <div className="bg-neutral-100 h-screen">
+        <div className="bg-neutral-100 h-screen min-h-[600px]">
             <Tabs tabs={tabs} className="w-1/2 min-w-[600px]"/>
         </div>
     );

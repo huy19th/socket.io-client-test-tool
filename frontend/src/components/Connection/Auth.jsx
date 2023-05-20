@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Input from "../UI/Input";
-import Button from "../UI/Button";
+import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { TextField, Button, IconButton } from "@mui/material";
 
 export default function Auth({ settings, updateSettings }) {
 
@@ -43,52 +43,61 @@ export default function Auth({ settings, updateSettings }) {
         <div className="w-full">
             <div className="mb-3 pt-0 flex">
                 <div className="w-1/4 pr-2">
-                    <Input
-                        className="w-full"
+                    <TextField
+                        fullWidth
+                        size="small"
                         placeholder="Note"
                         value={token.note}
                         name="note"
                         onChange={handleChange}
                     />
                 </div>
-                <div className="w-7/12 mr-2">
-                    <Input
-                        className="w-full"
+                <div className="w-7/12 pr-2">
+                    <TextField
+                        fullWidth
+                        size="small"
                         placeholder="Token String"
                         value={token.token}
                         name="token"
                         onChange={handleChange}
                     />
                 </div>
-
                 <Button
-                    type="button"
-                    onClick={handleAdd}>
-                    Add Token
+                    variant="contained"
+                    onClick={handleAdd}
+                    startIcon={<AddIcon />}
+                >
+                    Token
                 </Button>
             </div>
-            <div className="mb-3 pt-0">
+            <hr />
+            <div className="my-3 pt-0">
                 {
                     settings.tokens.length ?
                         settings.tokens.map((item, index) => (
-                            <div key={`token-${index}`} className="flex">
+                            <div key={`token-${index}`} className="flex mb-2">
                                 <div className="w-1/4 pr-2">
-                                    <Input
-                                        className="w-full"
+                                    <TextField
+                                        fullWidth
+                                        size="small"
                                         name={`note-${index}`}
                                         value={item.note}
                                         onChange={handleUpdate}
                                     />
                                 </div>
-                                <div className="w-7/12 mr-2">
-                                    <Input
-                                        className="w-full"
+                                <div className="w-7/12 pr-2">
+                                    <TextField
+                                        fullWidth
+                                        size="small"
                                         name={`token-${index}`}
                                         value={item.token}
                                         onChange={handleUpdate}
                                     />
                                 </div>
-                                <DeleteIcon onClick={() => handleDelete(index)} />
+                                <IconButton onClick={() => handleDelete(index)}>
+                                    <DeleteIcon />
+                                </IconButton>
+
                             </div>
                         ))
                         : null

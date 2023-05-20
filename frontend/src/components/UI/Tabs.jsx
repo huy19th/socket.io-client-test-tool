@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
 import { ThemeContext } from "../../App";
+import { Button } from "@mui/material";
 
 export default function Tabs({ tabs, className }) {
 
@@ -19,12 +20,6 @@ export default function Tabs({ tabs, className }) {
                             className={`-mb-px last:mr-0 flex-auto text-center w-1/${tabs.length}`}
                         >
                             <a
-                                className={
-                                    `text-xs font-bold uppercase px-5 py-3 shadow-lg block leading-normal 
-                                ${index === 0 ? "rounded-l" : null}
-                                ${index === tabs.length - 1 ? "rounded-r" : null}
-                                ${openTab === index ? "text-white bg-" + color + "-600" : "text-" + color + "-600 bg-white"}`
-                                }
                                 onClick={e => {
                                     e.preventDefault();
                                     setOpenTab(index);
@@ -33,7 +28,12 @@ export default function Tabs({ tabs, className }) {
                                 href={`#link${index}`}
                                 role="tablist"
                             >
-                                {item.name}
+                                <Button
+                                    fullWidth
+                                    variant={openTab === index ? "contained" : "text"}
+                                >
+                                    {item.name}
+                                </Button>
                             </a>
                         </li>
                     ))}

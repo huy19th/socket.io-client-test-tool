@@ -10,7 +10,7 @@ export default function Input({ className, ...props }) {
     placeholder-slate-300 text-slate-600 text-sm
     relative
     bg-white
-    rounded border-0 shadow outline-none
+    rounded border-[0.5px] shadow outline-none
     focus:outline-none focus:ring-slate-400
     `;
 

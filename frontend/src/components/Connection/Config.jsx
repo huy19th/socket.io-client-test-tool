@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Input from "../UI/Input";
-import Button from "../UI/Button";
+import { TextField, Button, IconButton } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function Config({ settings, updateSettings }) {
@@ -51,8 +51,9 @@ export default function Config({ settings, updateSettings }) {
         <div className="w-full">
             <div className="mb-3 pt-0 flex">
                 <div className="w-1/4 pr-2">
-                    <Input
-                        className="w-full"
+                    <TextField
+                        fullWidth
+                        size="small"
                         placeholder="key"
                         name="key"
                         value={config.key}
@@ -60,8 +61,9 @@ export default function Config({ settings, updateSettings }) {
                     />
                 </div>
                 <div className="w-7/12 mr-2">
-                    <Input
-                        className="w-full"
+                    <TextField
+                        fullWidth
+                        size="small"
                         placeholder="value"
                         name="value"
                         value={config.value}
@@ -69,32 +71,42 @@ export default function Config({ settings, updateSettings }) {
                     />
                 </div>
 
-                <Button type="button" onClick={handleAdd}>
-                    Add Config
+                <Button
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    onClick={handleAdd}
+                >
+                    Config
                 </Button>
             </div>
-            <div className="mb-3 pt-0">
+            <hr />
+            <div className="my-3 pt-0">
                 {
                     Object.keys(settings.configs).length ?
                         Object.keys(settings.configs).map((key, index) => (
                             <div key={index} className="flex">
                                 <div className="w-1/4 pr-2">
-                                    <Input
-                                        className="w-full"
+                                    <TextField
+                                        fullWidth
+                                        size="small"
                                         name={`key-${key}`}
                                         value={key}
                                         onChange={handleUpdate}
                                     />
                                 </div>
-                                <div className="w-7/12 mr-2">
-                                    <Input
-                                        className="w-full"
+                                <div className="w-7/12 pr-2">
+                                    <TextField
+                                        fullWidth
+                                        size="small"
                                         name={`value-${key}`}
                                         value={settings.configs[key]}
                                         onChange={handleUpdate}
                                     />
                                 </div>
-                                <DeleteIcon onClick={() => handleDelete(key)} />
+                                <IconButton onClick={() => handleDelete(key)}>
+                                    <DeleteIcon />
+                                </IconButton>
+
                             </div>
                         ))
                         : null

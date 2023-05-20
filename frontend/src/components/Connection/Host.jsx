@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Input from "../UI/Input";
-import Button from "../UI/Button";
+import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { TextField, Button, IconButton } from "@mui/material";
 
 export default function Host({ settings, updateSettings }) {
 
@@ -33,29 +33,43 @@ export default function Host({ settings, updateSettings }) {
 
     return (
         <div className="w-full">
-            <div className="mb-3 pt-0">
-                <Input
-                    className="w-5/6"
-                    value={state}
-                    onChange={event => setState(event.target.value)}
-                />
+            <div className="mb-3 pt-0 flex">
+                <div className="w-5/6 pr-2">
+                    <TextField
+                        fullWidth
+                        size="small"
+                        placeholder="Host"
+                        value={state}
+                        onChange={event => setState(event.target.value)}
+                    />
+                </div>
+
                 <Button
-                    onClick={handleAdd}>
-                    Add Host
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    onClick={handleAdd}
+                >
+                    Host
                 </Button>
             </div>
-            <div className="mb-3 pt-0">
+            <hr/>
+            <div className="my-3 pt-0 h-[calc(100vh-380px)] min-h-[230px] overflow-auto">
                 {
                     settings.hosts.length ?
                         settings.hosts.map((item, index) => (
-                            <div key={`hosts-${index}`}>
-                                <Input
-                                    className="w-5/6"
-                                    name={`hosts-${index}`}
-                                    value={item}
-                                    onChange={(event) => handleUpdate(index, event)}
-                                />
-                                <DeleteIcon onClick={() => handleDelete(index)} />
+                            <div key={`hosts-${index}`} className="flex mb-2">
+                                <div className="w-5/6 pr-2">
+                                    <TextField
+                                        fullWidth
+                                        size="small"
+                                        name={`hosts-${index}`}
+                                        value={item}
+                                        onChange={(event) => handleUpdate(index, event)}
+                                    />
+                                </div>
+                                <IconButton onClick={() => handleDelete(index)}>
+                                    <DeleteIcon />
+                                </IconButton>
                             </div>
                         ))
                         : null

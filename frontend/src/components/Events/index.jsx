@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Input from "../UI/Input";
-import Button from "../UI/Button";
+import { TextField, Button, IconButton, Icon } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 
 export default function Events({ settings, updateSettings }) {
 
@@ -74,24 +74,39 @@ export default function Events({ settings, updateSettings }) {
         updateSettings({ ...settings });
         saveChanges();
     }
-
+    const hello = ["hello", "hello", "hello", "hello", "hello"];
     return (
         <>
             <div className="mb-3 pt-0">
-                <Input value={state} onChange={event => setState(event.target.value)} />
-                <Button type="button" onClick={handleAdd}>
-                    Add Event
+                <TextField
+                    size="small"
+                    value={state}
+                    onChange={event => setState(event.target.value)}
+                />
+                <Button
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    onClick={handleAdd}
+                >
+                    Event
                 </Button>
             </div>
             <div className="mb-3 pt-0">
                 {
                     settings.events.length ?
                         settings.events.map((item, index) => (
-                            <div>
-                                <Input type="text" key={`events-${index}`} name={`events-${index}`} value={item}
+                            <div key={`events-${index}`}>
+                                <TextField
+                                    size="small"
+                                    type="text"
+                                    name={`events-${index}`}
+                                    value={item}
                                     onChange={(event) => handleUpdate(index, event)}
                                 />
-                                <DeleteIcon onClick={() => handleDelete(index)} />
+                                <IconButton onClick={() => handleDelete(index)}>
+                                    <DeleteIcon />
+                                </IconButton>
+
                             </div>
                         ))
                         : null
