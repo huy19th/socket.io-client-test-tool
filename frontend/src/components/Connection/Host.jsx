@@ -32,7 +32,7 @@ export default function Host({ settings, updateSettings }) {
     }
 
     return (
-        <>
+        <div className="w-full">
             <div className="mb-3 pt-0">
                 <Input
                     className="w-5/6"
@@ -61,6 +61,6 @@ export default function Host({ settings, updateSettings }) {
                         : null
                 }
             </div>
-        </>
+        </div>
     )
 }

@@ -3,7 +3,7 @@ import Input from "../UI/Input";
 import Button from "../UI/Button";
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function Token({ settings, updateSettings }) {
+export default function Auth({ settings, updateSettings }) {
 
     const [token, setToken] = useState({ note: "", token: "" });
 
@@ -40,7 +40,7 @@ export default function Token({ settings, updateSettings }) {
     }
 
     return (
-        <>
+        <div className="w-full">
             <div className="mb-3 pt-0 flex">
                 <div className="w-1/4 pr-2">
                     <Input
@@ -94,6 +94,6 @@ export default function Token({ settings, updateSettings }) {
                         : null
                 }
             </div>
-        </>
+        </div>
     )
 }

@@ -5,7 +5,7 @@ export default function Tabs({ tabs, className }) {
 
     const { color } = useContext(ThemeContext);
 
-    const [openTab, setOpenTab] = useState(1);
+    const [openTab, setOpenTab] = useState(0);
 
     return (
         <>

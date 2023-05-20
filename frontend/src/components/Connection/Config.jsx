@@ -48,7 +48,7 @@ export default function Config({ settings, updateSettings }) {
     }
 
     return (
-        <>
+        <div className="w-full">
             <div className="mb-3 pt-0 flex">
                 <div className="w-1/4 pr-2">
                     <Input
@@ -100,6 +100,6 @@ export default function Config({ settings, updateSettings }) {
                         : null
                 }
             </div>
-        </>
+        </div>
     )
 }
