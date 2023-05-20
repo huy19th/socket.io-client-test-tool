@@ -49,19 +49,26 @@ export default function Config({ settings, updateSettings }) {
 
     return (
         <>
-            <div className="mb-3 pt-0">
-                <Input
-                    placeholder="key"
-                    name="key"
-                    value={config.key}
-                    onChange={handleChange}
-                />
-                <Input
-                    placeholder="value"
-                    name="value"
-                    value={config.value}
-                    onChange={handleChange}
-                />
+            <div className="mb-3 pt-0 flex">
+                <div className="w-1/4 pr-2">
+                    <Input
+                        className="w-full"
+                        placeholder="key"
+                        name="key"
+                        value={config.key}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="w-7/12 mr-2">
+                    <Input
+                        className="w-full"
+                        placeholder="value"
+                        name="value"
+                        value={config.value}
+                        onChange={handleChange}
+                    />
+                </div>
+
                 <Button type="button" onClick={handleAdd}>
                     Add Config
                 </Button>
@@ -70,17 +77,23 @@ export default function Config({ settings, updateSettings }) {
                 {
                     Object.keys(settings.configs).length ?
                         Object.keys(settings.configs).map((key, index) => (
-                            <div key={index}>
-                                <Input
-                                    name={`key-${key}`}
-                                    value={key}
-                                    onChange={handleUpdate}
-                                />
-                                <Input
-                                    name={`value-${key}`}
-                                    value={settings.configs[key]}
-                                    onChange={handleUpdate}
-                                />
+                            <div key={index} className="flex">
+                                <div className="w-1/4 pr-2">
+                                    <Input
+                                        className="w-full"
+                                        name={`key-${key}`}
+                                        value={key}
+                                        onChange={handleUpdate}
+                                    />
+                                </div>
+                                <div className="w-7/12 mr-2">
+                                    <Input
+                                        className="w-full"
+                                        name={`value-${key}`}
+                                        value={settings.configs[key]}
+                                        onChange={handleUpdate}
+                                    />
+                                </div>
                                 <DeleteIcon onClick={() => handleDelete(key)} />
                             </div>
                         ))

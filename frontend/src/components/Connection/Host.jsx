@@ -34,8 +34,13 @@ export default function Host({ settings, updateSettings }) {
     return (
         <>
             <div className="mb-3 pt-0">
-                <Input value={state} onChange={event => setState(event.target.value)} />
-                <Button type="button" onClick={handleAdd}>
+                <Input
+                    className="w-5/6"
+                    value={state}
+                    onChange={event => setState(event.target.value)}
+                />
+                <Button
+                    onClick={handleAdd}>
                     Add Host
                 </Button>
             </div>
@@ -45,6 +50,7 @@ export default function Host({ settings, updateSettings }) {
                         settings.hosts.map((item, index) => (
                             <div key={`hosts-${index}`}>
                                 <Input
+                                    className="w-5/6"
                                     name={`hosts-${index}`}
                                     value={item}
                                     onChange={(event) => handleUpdate(index, event)}

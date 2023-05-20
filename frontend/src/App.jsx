@@ -1,4 +1,4 @@
-import Tabs from "./components/Tabs";
+import Home from "./pages/Home";
 import { createContext, useState } from "react";
 
 export const SocketContext = createContext({
@@ -9,9 +9,9 @@ export const SocketContext = createContext({
   setUpConnection: (io) => { }
 });
 
-export const ThemeContext = createContext({ 
+export const ThemeContext = createContext({
   color: "color",
-  setColor: (color) => {}
+  setColor: (color) => { }
 });
 
 function App() {
@@ -33,7 +33,7 @@ function App() {
   return (
     <SocketContext.Provider value={{ socket, setUpConnection }}>
       <ThemeContext.Provider value={{ color, setColor }}>
-        <Tabs color="amber" />
+        <Home />
       </ThemeContext.Provider>
     </SocketContext.Provider >
   );
