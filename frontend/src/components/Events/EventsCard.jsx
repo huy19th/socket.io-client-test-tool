@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { SettingsContext } from "../../contexts";
 import { Card, CardHeader, CardContent, CardActions } from "@mui/material";
 import { TextField, Button, IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 
-export default function EventsCard({ settings, updateSettings }) {
+export default function EventsCard() {
+
+    const { settings, updateSettings } = useContext(SettingsContext);
+
     const [state, setState] = useState("");
 
     const getEvents = () => {

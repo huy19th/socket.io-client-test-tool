@@ -1,8 +1,11 @@
-import { useState } from "react";
-import { Card, Button } from "@mui/material";
-import Select from "../UI/Select";
+import { useState, useContext } from "react";
+import { SettingsContext } from "../../../contexts";
+import { Button } from "@mui/material";
+import Select from "../../UI/Select";
 
-export default function Connect({ settings }) {
+export default function Connect() {
+
+    const { settings } = useContext(SettingsContext);
 
     const [host, setHost] = useState(settings.hosts[0] || "");
 
@@ -19,7 +22,7 @@ export default function Connect({ settings }) {
     tokenOptions.unshift({ key: "No Token", value: " " });
 
     return (
-        <div className="mb-5 w-full flex justify-between">
+        <div className="mb-5 w-full flex justify-between space-x-1">
             <Select
                 className="bg-white w-1/2"
                 options={hostOptions}
@@ -27,7 +30,7 @@ export default function Connect({ settings }) {
                 handleChange={setHost}
             />
             <Select
-                className="bg-white w-1/5"
+                className="bg-white w-1/4"
                 options={tokenOptions}
                 value={token}
                 handleChange={setToken}

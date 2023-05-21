@@ -1,10 +1,7 @@
 import { useState, useContext } from "react";
-import { ThemeContext } from "../../App";
 import { Button } from "@mui/material";
 
 export default function Tabs({ tabs, className }) {
-
-    const { color } = useContext(ThemeContext);
 
     const [openTab, setOpenTab] = useState(0);
 

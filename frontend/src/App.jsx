@@ -1,20 +1,17 @@
 import Home from "./pages/Home";
-import { createContext, useState } from "react";
-
-export const SocketContext = createContext({
-  socket: {
-    isConnected: true,
-    io: null
-  },
-  setUpConnection: (io) => { }
-});
-
-export const ThemeContext = createContext({
-  color: "color",
-  setColor: (color) => { }
-});
+import { useState } from "react";
+import { SettingsContext, SocketContext, ThemeContext } from "./contexts";
 
 function App() {
+
+  const [settings, updateSettings] = useState({
+    hosts: JSON.parse(localStorage.getItem("hosts")) || [],
+    configs: JSON.parse(localStorage.getItem("configs")) || {},
+    tokens: JSON.parse(localStorage.getItem("tokens")) || [],
+    events: JSON.parse(localStorage.getItem("events")) || [],
+    args: JSON.parse(localStorage.getItem("args")) || {},
+    json: JSON.parse(localStorage.getItem("json")) || {},
+  });
 
   const [socket, setConnection] = useState({
     isConnected: false,
@@ -31,11 +28,13 @@ function App() {
   const [color, setColor] = useState("red");
 
   return (
-    <SocketContext.Provider value={{ socket, setUpConnection }}>
-      <ThemeContext.Provider value={{ color, setColor }}>
-        <Home />
-      </ThemeContext.Provider>
-    </SocketContext.Provider >
+    <SettingsContext.Provider value={{ settings, updateSettings }}>
+      <SocketContext.Provider value={{ socket, setUpConnection }}>
+        <ThemeContext.Provider value={{ color, setColor }}>
+          <Home />
+        </ThemeContext.Provider>
+      </SocketContext.Provider >
+    </SettingsContext.Provider>
   );
 }
 
