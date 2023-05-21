@@ -24,7 +24,6 @@ export default function AddHost() {
     return (
         <div className="mb-3 pt-0 flex space-x-2">
             <TextField
-                fullWidth
                 className="w-5/6"
                 size="small"
                 placeholder="Host"

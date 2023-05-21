@@ -31,7 +31,6 @@ export default function ListHosts() {
                     settings.hosts.map((item, index) => (
                         <div key={`hosts-${index}`} className="flex mb-2 space-x-2">
                             <TextField
-                                fullWidth
                                 className="w-5/6"
                                 size="small"
                                 name={`hosts-${index}`}
