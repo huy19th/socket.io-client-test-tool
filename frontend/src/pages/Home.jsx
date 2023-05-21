@@ -11,7 +11,8 @@ export default function Home() {
         configs: JSON.parse(localStorage.getItem("configs")) || {},
         tokens: JSON.parse(localStorage.getItem("tokens")) || [],
         events: JSON.parse(localStorage.getItem("events")) || [],
-        data: JSON.parse(localStorage.getItem("data")) || {}
+        args: JSON.parse(localStorage.getItem("args")) || {},
+        json: JSON.parse(localStorage.getItem("json")) || {},
     });
 
     const props = { settings, updateSettings };
