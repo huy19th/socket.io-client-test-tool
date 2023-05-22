@@ -7,7 +7,7 @@ import MessagesCard from "./MessagesCard";
 export default function Events() {
 
     return (
-        <div className="w-[90%] flex justify-center space-x-3">
+        <div className="w-[90%] h-[90%] flex space-x-3">
             <EventsCard />
             <MessagesCard />
         </div>

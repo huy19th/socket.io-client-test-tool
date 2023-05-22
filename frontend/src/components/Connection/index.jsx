@@ -4,24 +4,31 @@ import Config from "./Config";
 import Card from "../UI/Card";
 import Tabs from "../UI/Tabs";
 import Connect from "./Connect";
+import SettingsIcon from '@mui/icons-material/Settings';
+import FullScreenDialog from "../UI/FullScreenDialog";
 import generateArray from "../../ultils/generateArray";
 
-export default function Connection(props) {
+
+export default function Settings() {
 
     const tabs = generateArray([
-        ["Host", <Host {...props} />],
-        ["Auth", <Auth {...props} />],
-        ["Config", <Config {...props} />],
+        ["Host", <Host />],
+        ["Auth", <Auth />],
+        ["Config", <Config />],
     ], "name", "el");
 
     return (
-        <div className="justify-center  w-1/2 min-w-[700px]">
-            <Connect {...props}/>
-            <Card className="h-[calc(100vh-160px)] min-h-[450px]">
-                <h1 className="text-center text-2xl pb-5">Settings</h1>
-                <Tabs tabs={tabs} className="w-full"/>
-            </Card>
-        </div>
-
+        <FullScreenDialog
+            title="Settings"
+            icon={<SettingsIcon />}
+        >
+            <div className="justify-center  w-1/2 min-w-[700px]">
+                <Connect />
+                <Card className="h-[calc(100vh-160px)] min-h-[450px]">
+                    <h1 className="text-center text-2xl pb-5">Settings</h1>
+                    <Tabs tabs={tabs} className="w-full" />
+                </Card>
+            </div>
+        </FullScreenDialog>
     )
 }

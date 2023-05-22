@@ -10,15 +10,15 @@ export default function ListEvents() {
     const { settings, updateSettings } = useContext(SettingsContext);
 
     const getMessages = () => {
-        return JSON.parse(localStorage.getItem("json"));
+        return JSON.parse(localStorage.getItem("messages"));
     }
 
     const saveEventsInLocalStorage = () => {
         localStorage.setItem("events", JSON.stringify(settings.events));
     }
 
-    const saveJsonInLocalStorage = () => {
-        localStorage.setItem("json", JSON.stringify(settings.json));
+    const saveMessagesInLocalStorage = () => {
+        localStorage.setItem("messages", JSON.stringify(settings.messages));
     }
 
     const deleteEventMessages = (eventName) => {
@@ -32,7 +32,7 @@ export default function ListEvents() {
     const deleteEvent = (index) => {
         let eventName = settings.events[index];
         settings.events.splice(index, 1);
-        delete settings.data[eventName];
+        delete settings.messages[eventName];
         updateSettings({ ...settings });
         deleteEventMessages(eventName);
         saveEventsInLocalStorage();
@@ -45,15 +45,15 @@ export default function ListEvents() {
     }
 
     const addMessage = (eventName) => {
-        let eventMessages = settings.json[eventName];
+        let eventMessages = settings.messages[eventName];
         if (eventMessages) {
             eventMessages.push("");
         }
         else {
-            settings.json[eventName] = [""];
+            settings.messages[eventName] = [""];
         }
         updateSettings({ ...settings });
-        saveJsonInLocalStorage();
+        saveMessagesInLocalStorage();
     }
 
     return (
@@ -73,7 +73,7 @@ export default function ListEvents() {
                                 />
                                 <IconButton
                                     children={<DeleteIcon />}
-                                    onClick={() => deleteEvent(eventName)}
+                                    onClick={() => deleteEvent(index)}
                                 />
                                 <IconButton
                                     children={<AddCircleIcon />}

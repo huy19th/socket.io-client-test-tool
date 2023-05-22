@@ -6,10 +6,6 @@ export default function EventsCard() {
 
     return (
         <Card className="w-1/2">
-            <CardHeader
-                title="Events"
-                titleTypographyProps={{ textAlign: "center" }}
-            />
             <CardContent className="mb-3 pt-0">
                 <AddEvent />
                 <ListEvents />

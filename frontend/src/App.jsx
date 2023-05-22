@@ -9,8 +9,7 @@ function App() {
     configs: JSON.parse(localStorage.getItem("configs")) || {},
     tokens: JSON.parse(localStorage.getItem("tokens")) || [],
     events: JSON.parse(localStorage.getItem("events")) || [],
-    args: JSON.parse(localStorage.getItem("args")) || {},
-    json: JSON.parse(localStorage.getItem("json")) || {},
+    messages: JSON.parse(localStorage.getItem("messages")) || {},
   });
 
   const [socket, setConnection] = useState({

@@ -10,17 +10,17 @@ export default function ListMessages({ eventName }) {
     const { settings, updateSettings } = useContext(SettingsContext);
 
     const saveJsonInLocalStorage = () => {
-        localStorage.setItem("json", JSON.stringify(settings.json));
+        localStorage.setItem("json", JSON.stringify(settings.messages));
     }
 
     const updateMessage = (event, eventName, index) => {
-        settings.json[eventName][index] = event.target.value;
+        settings.messages[eventName][index] = event.target.value;
         updateSettings({ ...settings });
         saveJsonInLocalStorage();
     }
 
     const deleteMessage = (eventName, index) => {
-        settings.json[eventName].splice(index, 1);
+        settings.messages[eventName].splice(index, 1);
         updateSettings({ ...settings });
         saveJsonInLocalStorage();
     }
@@ -28,8 +28,8 @@ export default function ListMessages({ eventName }) {
     return (
         <div>
             {
-                settings.json[eventName] ?
-                    settings.json[eventName].map((message, index) => (
+                settings.messages[eventName] ?
+                    settings.messages[eventName].map((message, index) => (
                         <div key={`message-${index}`}>
                             <TextField
                                 multiline
