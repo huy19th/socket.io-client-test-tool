@@ -22,19 +22,19 @@ export default function FullScreenDialog({ children, title, icon }) {
 
     return (
         <div>
-            <IconButton
-                onClick={handleClickOpen}
-                children={icon}
-            />
+            <div onClick={handleClickOpen}>
+                {icon}
+            </div>
+
             <Dialog
                 fullScreen
                 open={open}
                 onClose={handleClose}
                 TransitionComponent={Transition}
             >
-                <AppBar sx={{ position: 'relative' }}>
+                <AppBar className="relative">
                     <Toolbar>
-                        <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                        <Typography sx={{ flex: 1, textAlign: "center" }} variant="h6" component="div">
                             {title}
                         </Typography>
                         <IconButton
@@ -42,11 +42,17 @@ export default function FullScreenDialog({ children, title, icon }) {
                             color="inherit"
                             onClick={handleClose}
                             aria-label="close"
+                            sx={{
+                                position: "fixed",
+                                top: "10px",
+                                right: "10px"
+                            }}
                         >
                             <CloseIcon />
                         </IconButton>
                     </Toolbar>
                 </AppBar>
+                <Toolbar/>
                 {children}
             </Dialog>
         </div>

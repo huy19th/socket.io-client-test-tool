@@ -4,6 +4,7 @@ import Config from "./Config";
 import Card from "../UI/Card";
 import Tabs from "../UI/Tabs";
 import Connect from "./Connect";
+import { Fab } from "@mui/material";
 import SettingsIcon from '@mui/icons-material/Settings';
 import FullScreenDialog from "../UI/FullScreenDialog";
 import generateArray from "../../ultils/generateArray";
@@ -19,15 +20,30 @@ export default function Settings() {
 
     return (
         <FullScreenDialog
-            title="Settings"
-            icon={<SettingsIcon />}
+            title="Connection"
+            icon={
+                <Fab
+                    sx={{
+                        position: "fixed",
+                        top: "10px",
+                        right: "10px"
+                    }}
+                    aria-label="settings"
+                    size="small"
+                    color="primary"
+                >
+                    <SettingsIcon />
+                </Fab>
+            }
         >
-            <div className="justify-center  w-1/2 min-w-[700px]">
-                <Connect />
-                <Card className="h-[calc(100vh-160px)] min-h-[450px]">
-                    <h1 className="text-center text-2xl pb-5">Settings</h1>
-                    <Tabs tabs={tabs} className="w-full" />
-                </Card>
+            <div className="flex justify-center bg-neutral-100">
+                <div className="justify-center w-1/2 min-w-[700px] pt-6">
+                    <Connect />
+                    <Card raised className="h-[calc(100vh-175px)] min-h-[450px]">
+                        <h1 className="text-center text-2xl pb-5" contentEditable onInput={event => console.log(event.target.innerHTML)}>Settings</h1>
+                        <Tabs tabs={tabs} className="w-full" />
+                    </Card>
+                </div>
             </div>
         </FullScreenDialog>
     )
