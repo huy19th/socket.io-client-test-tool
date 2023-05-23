@@ -2,8 +2,9 @@ import { useContext, useState } from "react";
 import { SettingsContext } from "../../../contexts";
 import { TextField, IconButton, Tooltip, Badge } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import PostAddIcon from '@mui/icons-material/PostAdd';
 import DeleteIcon from '@mui/icons-material/Delete';
-import SendIcon from '@mui/icons-material/Send';
+import Message from "./Message";
 
 export default function ListMessages({ eventIndex, setEventIndex }) {
 
@@ -52,10 +53,10 @@ export default function ListMessages({ eventIndex, setEventIndex }) {
         let eventName = settings.events[eventIndex];
         let eventMessages = settings.messages[eventName];
         if (eventMessages) {
-            eventMessages.push("");
+            eventMessages.push([""]);
         }
         else {
-            settings.messages[eventName] = [""];
+            settings.messages[eventName] = [[""]];
         }
         updateSettings({ ...settings });
         saveMessagesInLocalStorage();
@@ -88,34 +89,27 @@ export default function ListMessages({ eventIndex, setEventIndex }) {
                     placement="top-start"
                 >
                     <IconButton onClick={addMessage}>
-                        <AddCircleIcon />
+                        <PostAddIcon/>
                     </IconButton>
                 </Tooltip>
-                <Tooltip>
+                <Tooltip
+                    title="Delete Event"
+                    placement="top-start"
+                >
                     <IconButton onClick={deleteEvent}>
                         <DeleteIcon />
                     </IconButton>
                 </Tooltip>
             </div>
-            <div>
+            <div className="flex space-x-1">
                 {
                     settings.messages[eventName] ?
                         settings.messages[eventName].map((message, index) => (
-                            <div key={`message-${index}`}>
-                                <TextField
-                                    multiline
-                                    size="small"
-                                    value={message}
-                                    onChange={(event) => updateMessage(event, eventName, index)}
-                                />
-                                <IconButton
-                                    children={<DeleteIcon />}
-                                    onClick={() => deleteMessage(eventName, index)}
-                                />
-                                <IconButton
-                                    children={<SendIcon />}
-                                />
-                            </div>
+                            <Message
+                                key={`message-${index}`}
+                                eventIndex={eventIndex}
+                                messageIndex={index}
+                            />
                         ))
                         : null
                 }
