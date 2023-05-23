@@ -1,7 +1,8 @@
 import { useContext } from "react";
 import { SettingsContext } from "../../../contexts";
-import { TextField, IconButton } from "@mui/material";
+import { TextField, InputAdornment, IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+import validateJSON from "../../../ultils/validateJson";
 
 export default function ListConfigs() {
 
@@ -51,6 +52,13 @@ export default function ListConfigs() {
                                 name={`value-${key}`}
                                 value={settings.configs[key]}
                                 onChange={handleUpdate}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            {settings.configs[key] ? validateJSON(settings.configs[key]) ? "json:" : "text:" : null}
+                                        </InputAdornment>
+                                    )
+                                }}
                             />
                             <IconButton onClick={() => handleDelete(key)}>
                                 <DeleteIcon />

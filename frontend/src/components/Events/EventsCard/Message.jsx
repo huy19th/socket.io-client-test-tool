@@ -1,14 +1,15 @@
 import { useContext } from "react";
 import { SettingsContext, SocketContext } from "../../../contexts";
 import Card from "../../UI/Card";
-import { IconButton, TextField, InputAdornment, Tooltip } from "@mui/material";
+import { TextField, InputAdornment, Tooltip, IconButton } from "@mui/material";
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
-import TaskIcon from '@mui/icons-material/Task';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import generateArray from "../../../ultils/generateArray";
+import validateJSON from "../../../ultils/validateJson";
 
 export default function Message({ eventIndex, messageIndex }) {
 
@@ -65,7 +66,7 @@ export default function Message({ eventIndex, messageIndex }) {
 
     let options = generateArray([
         ["add arg", "top-start", <AddIcon size="small" />, addArg],
-        ["beautify", "top-start", <InsertDriveFileIcon size="small" />, () => { }],
+        ["beautify", "top-start", <AutoFixHighIcon size="small" />, () => { }],
         ["emit", "top-start", <UploadFileIcon size="small" />, handleEmit],
         ["delete", "top-start", <DeleteIcon size="small" />, deleteMessage]
     ], "title", "placement", "el", "handleClick");
@@ -102,6 +103,11 @@ export default function Message({ eventIndex, messageIndex }) {
                                     multiline
                                     fullWidth
                                     InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                {arg ? validateJSON(arg) ? "json:" : "text:" : null}
+                                            </InputAdornment>
+                                        ),
                                         endAdornment: (
                                             <InputAdornment
                                                 className="sizeSmall"
