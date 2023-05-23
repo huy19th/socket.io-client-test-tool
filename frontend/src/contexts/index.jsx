@@ -13,11 +13,10 @@ export const SettingsContext = createContext({
 });
 
 export const SocketContext = createContext({
-    socket: {
-        isConnected: true,
-        io: null
-    },
-    setUpConnection: (io) => { }
+    isConnected: false,
+    socket: null,
+    connectSocket: (socket) => {},
+    disconnectSocket: () => {}
 });
 
 export const ThemeContext = createContext({

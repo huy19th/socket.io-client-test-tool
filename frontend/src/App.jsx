@@ -14,13 +14,23 @@ function App() {
 
   const [socket, setConnection] = useState({
     isConnected: false,
-    io: null,
+    socket: null,
   });
 
-  const setUpConnection = (io) => {
+  const connectSocket = (socket) => {
+    if (socket) {
+      setConnection({
+        isConnected: true,
+        socket: socket
+      });
+    }
+  }
+
+  const disconnectSocket = () => {
+    if (socket.socket) socket.socket.disconnect();
     setConnection({
-      isConnected: true,
-      io: io
+      isConnected: false,
+      socket: null
     });
   }
 
@@ -28,7 +38,7 @@ function App() {
 
   return (
     <SettingsContext.Provider value={{ settings, updateSettings }}>
-      <SocketContext.Provider value={{ socket, setUpConnection }}>
+      <SocketContext.Provider value={{ ...socket, connectSocket, disconnectSocket }}>
         <ThemeContext.Provider value={{ color, setColor }}>
           <Home />
         </ThemeContext.Provider>

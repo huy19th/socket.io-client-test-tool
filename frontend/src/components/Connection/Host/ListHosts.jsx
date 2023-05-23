@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { SettingsContext } from "../../../contexts";
+import { SettingsContext, SocketContext } from "../../../contexts";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { TextField, IconButton } from "@mui/material";
 
@@ -7,6 +7,8 @@ import { TextField, IconButton } from "@mui/material";
 export default function ListHosts() {
 
     const { settings, updateSettings } = useContext(SettingsContext);
+
+    const { socket, isConnected } = useContext(SocketContext);
 
     const saveChanges = () => {
         localStorage.setItem("hosts", JSON.stringify(settings.hosts));
@@ -29,7 +31,11 @@ export default function ListHosts() {
             {
                 settings.hosts.length ?
                     settings.hosts.map((item, index) => (
-                        <div key={`hosts-${index}`} className="flex mb-2 space-x-2">
+                        <div
+                        key={`hosts-${index}`}
+                        className="flex mb-2 space-x-2"
+                        disabled={isConnected ? socket.io.uri == item : false}
+                        >
                             <TextField
                                 className="w-5/6"
                                 size="small"
