@@ -24,6 +24,11 @@ const io = socket(server, {
     },
 });
 
+io.use((socket, next) => {
+    console.log(socket.handshake);
+    next();
+})
+
 io.on("connection", (socket) => {
     console.log(`${socket.id} connected`);
 
