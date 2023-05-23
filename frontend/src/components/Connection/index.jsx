@@ -40,7 +40,7 @@ export default function Settings() {
                 <div className="justify-center w-1/2 min-w-[700px] pt-6">
                     <Connect />
                     <Card raised className="h-[calc(100vh-175px)] min-h-[450px]">
-                        <h1 className="text-center text-2xl pb-5" contentEditable onInput={event => console.log(event.target.innerHTML)}>Settings</h1>
+                        <h1 className="text-center text-2xl pb-5" contentEditable>Settings</h1>
                         <Tabs tabs={tabs} className="w-full" />
                     </Card>
                 </div>

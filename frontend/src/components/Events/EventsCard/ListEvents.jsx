@@ -6,8 +6,6 @@ export default function ListEvents({ eventIndex, setEventIndex }) {
 
     const { settings } = useContext(SettingsContext);
 
-    console.log(settings)
-
     return (
         <div className="flex space-x-2 h-[96px] overflow-auto">
             {

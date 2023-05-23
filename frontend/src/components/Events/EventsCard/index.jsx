@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@mui/material";
 import AddEvent from "./AddEvent";
 import ListEvents from "./ListEvents";
+import ListMessages from "./ListMessages";
 
 export default function EventsCard() {
 
@@ -14,6 +15,7 @@ export default function EventsCard() {
                 <hr className="mb-3"/>
                 <ListEvents eventIndex={eventIndex} setEventIndex={setEventIndex}/>
                 <hr className="mb-3"/>
+                <ListMessages eventIndex={eventIndex} setEventIndex={setEventIndex}/>
             </CardContent>
         </Card>
     )

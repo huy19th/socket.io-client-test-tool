@@ -5,7 +5,7 @@ import Badge from '@mui/material/Badge';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 
-export default function ListMessages({ eventName }) {
+export default function ListMessagesOld({ eventName }) {
 
     const { settings, updateSettings } = useContext(SettingsContext);
 

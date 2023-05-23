@@ -25,19 +25,22 @@ export default function Connect() {
         <div className="mb-5 w-full flex justify-between space-x-1">
             <Select
                 className="bg-white w-1/2"
+                helperText="Host"
                 options={hostOptions}
                 value={host}
                 handleChange={setHost}
             />
             <Select
                 className="bg-white w-1/4"
+                helperText="Auth"
                 options={tokenOptions}
                 value={token}
                 handleChange={setToken}
             />
             <Button
                 variant="contained"
-                className="w-1/4"
+                className="w-1/4 h-[40px]"
+                sx={{mt: "19px"}}
             >
                 Connect
             </Button>
