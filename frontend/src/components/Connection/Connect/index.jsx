@@ -24,12 +24,38 @@ export default function Connect() {
 
     tokenOptions.unshift({ key: "No Token", value: " " });
 
-    const handleConnect = () => {
+    const handleConnect = async () => {
         if (!isConnected) {
             try {
                 let auth = token.trim() ? { token: token.trim() } : undefined;
-                let newSocket = io(host, { ...settings.configs, auth });
-                connectSocket(newSocket);
+                let parsedConfig = {};
+                Object.keys(settings.configs).forEach(configKey => {
+                    try {
+                        parsedConfig[configKey] = JSON.parse(settings.configs[configKey]);
+                    }
+                    catch (err) {
+                        parsedConfig[configKey] = settings.configs[configKey];
+                    }
+                });
+                let newSocket = io(host, { ...parsedConfig, auth });
+                
+                await new Promise((resolve, reject) => {
+                    let waitTime = 3;
+                    let waitConnect = setInterval(() => {
+                        if (newSocket.connected) {
+                            resolve(true);
+                            alert("Connected");
+                            connectSocket(newSocket);
+                            clearInterval(waitConnect);
+                        }
+                        if (!waitTime) {
+                            newSocket.disconnect();
+                            alert("Connect failed")
+                            clearInterval(waitConnect);
+                        }
+                        waitTime--;
+                    }, 1000);
+                });
             }
             catch (err) {
                 console.log(err);
