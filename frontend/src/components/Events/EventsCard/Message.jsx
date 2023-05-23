@@ -71,59 +71,63 @@ export default function Message({ eventIndex, messageIndex }) {
     ], "title", "placement", "el", "handleClick");
 
     return (
-        <Card className="2xl:w-1/3 lg:w-1/2 sm:w-full">
-            <div className="flex justify-end mb-1">
-                <div>   
-                    {
-                        options.map(item => (
-                            <Tooltip
-                                title={item.title}
-                                placement={item.placement}
-                            >
-                                <IconButton
-                                    sx={{ padding: 0, marginRight: 1 }}
-                                    onClick={item.handleClick}
+        <div className="2xl:w-1/3 lg:w-1/2 sm:w-full px-1">
+            <Card className="w-full">
+                <div className="flex justify-end mb-1">
+                    <div>
+                        {
+                            options.map(item => (
+                                <Tooltip
+                                    key={item.title}
+                                    title={item.title}
+                                    placement={item.placement}
                                 >
-                                    {item.el}
-                                </IconButton>
-                            </Tooltip>
-                        ))
+                                    <IconButton
+                                        sx={{ padding: 0, marginRight: 1 }}
+                                        onClick={item.handleClick}
+                                    >
+                                        {item.el}
+                                    </IconButton>
+                                </Tooltip>
+                            ))
+                        }
+                    </div>
+                </div>
+                <div className="flex-row space-y-1">
+                    {
+                        eventMessages.length ?
+                            currentMessage.map((arg, index) => (
+                                <TextField
+                                    key={`param-${index}`}
+                                    multiline
+                                    fullWidth
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment
+                                                className="sizeSmall"
+                                                position="start"
+                                                onClick={() => deleteArg(index)}
+                                            >
+                                                <IconButton sx={{ padding: 0 }}>
+                                                    <CloseIcon />
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                        style: {
+                                            paddingTop: 1,
+                                            paddingBottom: 1,
+                                            paddingRight: 1
+                                        }
+                                    }}
+                                    value={arg}
+                                    onChange={(event) => updateMessage(event, index)}
+                                />
+                            ))
+                            : null
                     }
                 </div>
-            </div>
-            <div className="flex-row space-y-1">
-                {
-                    eventMessages.length ?
-                        currentMessage.map((arg, index) => (
-                            <TextField
-                                key={`param-${index}`}
-                                multiline
-                                fullWidth
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment
-                                            className="sizeSmall"
-                                            position="start"
-                                            onClick={() => deleteArg(index)}
-                                        >
-                                            <IconButton sx={{ padding: 0 }}>
-                                                <CloseIcon />
-                                            </IconButton>
-                                        </InputAdornment>
-                                    ),
-                                    style: {
-                                        paddingTop: 1,
-                                        paddingBottom: 1,
-                                        paddingRight: 1
-                                    }
-                                }}
-                                value={arg}
-                                onChange={(event) => updateMessage(event, index)}
-                            />
-                        ))
-                        : null
-                }
-            </div>
-        </Card>
+            </Card>
+        </div>
+
     )
 }

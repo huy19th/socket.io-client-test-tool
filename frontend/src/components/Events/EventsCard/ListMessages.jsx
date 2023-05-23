@@ -1,7 +1,6 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { SettingsContext } from "../../../contexts";
-import { TextField, IconButton, Tooltip, Badge } from "@mui/material";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { TextField, IconButton, Tooltip } from "@mui/material";
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Message from "./Message";
@@ -62,18 +61,6 @@ export default function ListMessages({ eventIndex, setEventIndex }) {
         saveMessagesInLocalStorage();
     }
 
-    const updateMessage = (event, eventName, index) => {
-        settings.messages[eventName][index] = event.target.value;
-        updateSettings({ ...settings });
-        saveMessagesInLocalStorage();
-    }
-
-    const deleteMessage = (eventName, index) => {
-        settings.messages[eventName].splice(index, 1);
-        updateSettings({ ...settings });
-        saveMessagesInLocalStorage();
-    }
-
     if (eventIndex < 0) return <></>;
 
     return (
@@ -101,7 +88,8 @@ export default function ListMessages({ eventIndex, setEventIndex }) {
                     </IconButton>
                 </Tooltip>
             </div>
-            <div className="flex space-x-1">
+            <hr className="my-2"/>
+            <div className="flex flex-wrap">
                 {
                     settings.messages[eventName] ?
                         settings.messages[eventName].map((message, index) => (
