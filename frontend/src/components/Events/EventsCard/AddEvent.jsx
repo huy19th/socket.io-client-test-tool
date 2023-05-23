@@ -43,7 +43,7 @@ export default function AddEvent() {
     }
 
     return (
-        <div className="flex justify-between space-x-2 mb-3">
+        <div className="flex justify-between space-x-2">
             <TextField
                 fullWidth
                 size="small"

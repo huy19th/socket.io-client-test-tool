@@ -3,7 +3,7 @@ import { SettingsContext } from "../../../contexts";
 import { TextField, IconButton, Tooltip } from "@mui/material";
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Message from "./Message";
+import MessageDetailCard from "./MessageDetailCard";
 
 export default function ListMessages({ eventIndex, setEventIndex }) {
 
@@ -65,9 +65,11 @@ export default function ListMessages({ eventIndex, setEventIndex }) {
 
     return (
         <div>
-            <div>
+            <div className="flex h-1/3">
                 <TextField
                     size="small"
+                    fullWidth
+                    sx={{ paddingRight: 1 }}
                     value={settings.events[eventIndex]}
                     onChange={updateEvent}
                 />
@@ -76,7 +78,7 @@ export default function ListMessages({ eventIndex, setEventIndex }) {
                     placement="top-start"
                 >
                     <IconButton onClick={addMessage}>
-                        <PostAddIcon/>
+                        <PostAddIcon />
                     </IconButton>
                 </Tooltip>
                 <Tooltip
@@ -87,13 +89,14 @@ export default function ListMessages({ eventIndex, setEventIndex }) {
                         <DeleteIcon />
                     </IconButton>
                 </Tooltip>
+                
             </div>
-            <hr className="my-2"/>
-            <div className="flex flex-wrap">
+            <hr className="my-3 border-neutral-500" />
+            <div className="flex flex-wrap overflow-auto">
                 {
                     settings.messages[eventName] ?
                         settings.messages[eventName].map((message, index) => (
-                            <Message
+                            <MessageDetailCard
                                 key={`message-${index}`}
                                 eventIndex={eventIndex}
                                 messageIndex={index}

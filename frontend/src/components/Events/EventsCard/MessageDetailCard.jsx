@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { SettingsContext, SocketContext } from "../../../contexts";
 import Card from "../../UI/Card";
 import { TextField, InputAdornment, Tooltip, IconButton } from "@mui/material";
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -11,7 +10,7 @@ import AddIcon from '@mui/icons-material/Add';
 import generateArray from "../../../ultils/generateArray";
 import validateJSON from "../../../ultils/validateJson";
 
-export default function Message({ eventIndex, messageIndex }) {
+export default function MessageDetailCard({ eventIndex, messageIndex }) {
 
     const { settings, updateSettings } = useContext(SettingsContext);
 
@@ -73,7 +72,7 @@ export default function Message({ eventIndex, messageIndex }) {
 
     return (
         <div className="2xl:w-1/3 lg:w-1/2 sm:w-full px-1">
-            <Card className="w-full">
+            <Card className="w-full border-[1px] border-neutral-500">
                 <div className="flex justify-end mb-1">
                     <div>
                         {
@@ -122,7 +121,8 @@ export default function Message({ eventIndex, messageIndex }) {
                                         style: {
                                             paddingTop: 1,
                                             paddingBottom: 1,
-                                            paddingRight: 1
+                                            paddingRight: 0,
+                                            paddingLeft: 3
                                         }
                                     }}
                                     value={arg}

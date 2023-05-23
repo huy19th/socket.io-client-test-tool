@@ -7,7 +7,7 @@ export default function ListEvents({ eventIndex, setEventIndex }) {
     const { settings } = useContext(SettingsContext);
 
     return (
-        <div className="flex space-x-2 h-[96px] overflow-auto">
+        <div className="flex flex-wrap space-x-1 space-y-1 overflow-auto h-[calc(100%-60px)]">
             {
                 settings.events.length ?
                     settings.events.map((eventName, index) => (
