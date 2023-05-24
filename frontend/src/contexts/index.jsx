@@ -23,3 +23,8 @@ export const ThemeContext = createContext({
     color: "color",
     setColor: (color) => { }
 });
+
+export const MessagesConext = createContext({
+    listMessages: [],
+    updateListMessages: (message) => {}
+});

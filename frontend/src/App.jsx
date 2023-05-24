@@ -1,6 +1,6 @@
 import Home from "./pages/Home";
 import { useState } from "react";
-import { SettingsContext, SocketContext, ThemeContext } from "./contexts";
+import { SettingsContext, SocketContext, ThemeContext, MessagesConext } from "./contexts";
 
 function App() {
 
@@ -34,16 +34,24 @@ function App() {
     });
   }
 
+  const [listMessages, setListMessages] = useState([]);
+
+  const updateListMessages = (messages) => {
+    setListMessages(messages);
+  }
+
   const [color, setColor] = useState("red");
 
   return (
     <SettingsContext.Provider value={{ settings, updateSettings }}>
       <SocketContext.Provider value={{ ...socket, connectSocket, disconnectSocket }}>
         <ThemeContext.Provider value={{ color, setColor }}>
-          <Home />
+          <MessagesConext.Provider value={{ listMessages, updateListMessages }}>
+            <Home />
+          </MessagesConext.Provider>
         </ThemeContext.Provider>
       </SocketContext.Provider >
-    </SettingsContext.Provider>
+    </SettingsContext.Provider >
   );
 }
 

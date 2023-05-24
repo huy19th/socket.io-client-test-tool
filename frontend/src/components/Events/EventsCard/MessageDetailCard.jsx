@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { SettingsContext, SocketContext } from "../../../contexts";
+import { SettingsContext, SocketContext, MessagesConext } from "../../../contexts";
 import Card from "../../UI/Card";
 import { TextField, InputAdornment, Tooltip, IconButton } from "@mui/material";
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
@@ -15,6 +15,9 @@ export default function MessageDetailCard({ eventIndex, messageIndex }) {
     const { settings, updateSettings } = useContext(SettingsContext);
 
     const { socket } = useContext(SocketContext);
+
+    const { listMessages, updateListMessages } = useContext(MessagesConext);
+    console.log(listMessages, updateListMessages)
 
     let eventName = settings.events[eventIndex];
     let eventMessages = settings.messages[eventName];
@@ -59,8 +62,10 @@ export default function MessageDetailCard({ eventIndex, messageIndex }) {
                 return item;
             }
         });
-        console.log(args);
         socket.emit(eventName, ...args);
+        let newMessage = { isEmit: true, eventName, args };
+        updateListMessages([...listMessages, newMessage]);
+        // console.log([...messages, newMessage]);
     }
 
     let options = generateArray([
@@ -101,6 +106,7 @@ export default function MessageDetailCard({ eventIndex, messageIndex }) {
                                     key={`param-${index}`}
                                     multiline
                                     fullWidth
+                                    // className="w-full"
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">
