@@ -93,6 +93,7 @@ export default function Connect() {
             >
                 {isConnected ? "Disconnect" : "Connect"}
             </Button>
+            
         </div>
     )
 }

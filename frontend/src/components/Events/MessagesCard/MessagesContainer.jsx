@@ -1,15 +1,31 @@
-import { useContext } from "react";
-import { MessagesConext } from "../../../contexts";
+import { useContext, useEffect, useState } from "react";
+import { MessagesConext, SocketContext } from "../../../contexts";
 import Message from "./Message";
 
 export default function MessagesContainer() {
 
-    const { messages } = useContext(MessagesConext);
+    const [receviedMessage, setReceivedMessage] = useState({});
+
+    const { listMessages, updateListMessages } = useContext(MessagesConext);
+
+    const { socket, isConnected } = useContext(SocketContext);
+
+    useEffect(() => {
+        if (!isConnected) return;
+        socket.onAny((event, ...args) => {
+            setReceivedMessage({ isEmit: false, eventName: event, args });
+        });
+    }, [isConnected]);
+
+    useEffect(() => {
+        if (!isConnected) return;
+        updateListMessages([receviedMessage, ...listMessages]);
+    }, [receviedMessage]);
 
     return (
         <div className="h-[calc(100%-70px)] overflow-auto">
-            {messages.length ?
-                messages.map((message, index) => (
+            {listMessages.length ?
+                listMessages.map((message, index) => (
                     <Message
                         key={`msg-${index}`}
                         message={message}

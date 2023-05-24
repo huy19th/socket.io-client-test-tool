@@ -6,14 +6,16 @@ import DownloadIcon from '@mui/icons-material/Download';
 import UploadIcon from '@mui/icons-material/Upload';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
+import validateJSON from "../../../ultils/validateJson";
 
-export default function Message(message, index) {
 
-    const { messages, setMessages } = useContext(MessagesConext);
+export default function Message({message, index}) {
+
+    const { listMessages, updateListMessages } = useContext(MessagesConext);
 
     const deleteMessage = () => {
-        messages.splice(index, 1);
-        setMessages([...messages]);
+        listMessages.splice(index, 1);
+        updateListMessages([...listMessages]);
     }
 
     return (
@@ -22,7 +24,7 @@ export default function Message(message, index) {
             float-${message.isEmit ? "left" : "right"}`}
             >
                 <div className="flex justify-between">
-                    <div>
+                    <div className="flex">
                         {message.isEmit ? <UploadIcon /> : <DownloadIcon />}
                         <p>{message.eventName}</p>
                     </div>
@@ -42,7 +44,7 @@ export default function Message(message, index) {
                 </div>
                 <div>
                     {
-                        message.args.length ?
+                        message.args ? message.args.length ?
                             message.args.map((arg, index) => (
                                 <TextField
                                     key={`param-${index}`}
@@ -56,17 +58,6 @@ export default function Message(message, index) {
                                                 {arg ? validateJSON(arg.toString()) ? "json:" : "text:" : null}
                                             </InputAdornment>
                                         ),
-                                        endAdornment: (
-                                            <InputAdornment
-                                                className="sizeSmall"
-                                                position="start"
-                                                onClick={() => deleteArg(index)}
-                                            >
-                                                <IconButton sx={{ padding: 0 }}>
-                                                    <CloseIcon />
-                                                </IconButton>
-                                            </InputAdornment>
-                                        ),
                                         style: {
                                             paddingTop: 1,
                                             paddingBottom: 1,
@@ -75,9 +66,10 @@ export default function Message(message, index) {
                                         }
                                     }}
                                     value={arg.toString()}
+                                    disabled
                                 />
                             ))
-                            : null
+                            : null : null
                     }
                 </div>
             </Card>

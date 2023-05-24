@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SettingsContext, SocketContext, MessagesConext } from "../../../contexts";
 import Card from "../../UI/Card";
 import { TextField, InputAdornment, Tooltip, IconButton } from "@mui/material";
@@ -7,17 +7,19 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
+import UploadIcon from '@mui/icons-material/Upload';
 import generateArray from "../../../ultils/generateArray";
 import validateJSON from "../../../ultils/validateJson";
 
 export default function MessageDetailCard({ eventIndex, messageIndex }) {
+
+    const [emittedMessage, setEmittedMessage] = useState({});
 
     const { settings, updateSettings } = useContext(SettingsContext);
 
     const { socket } = useContext(SocketContext);
 
     const { listMessages, updateListMessages } = useContext(MessagesConext);
-    console.log(listMessages, updateListMessages)
 
     let eventName = settings.events[eventIndex];
     let eventMessages = settings.messages[eventName];
@@ -63,17 +65,19 @@ export default function MessageDetailCard({ eventIndex, messageIndex }) {
             }
         });
         socket.emit(eventName, ...args);
-        let newMessage = { isEmit: true, eventName, args };
-        updateListMessages([...listMessages, newMessage]);
-        // console.log([...messages, newMessage]);
+        setEmittedMessage({ isEmit: true, eventName, args });
     }
 
     let options = generateArray([
         ["add arg", "top-start", <AddIcon size="small" />, addArg],
         ["beautify", "top-start", <AutoFixHighIcon size="small" />, () => { }],
-        ["emit", "top-start", <UploadFileIcon size="small" />, handleEmit],
+        ["emit", "top-start", <UploadIcon size="small" />, handleEmit],
         ["delete", "top-start", <DeleteIcon size="small" />, deleteMessage]
     ], "title", "placement", "el", "handleClick");
+
+    useEffect(() => {
+        updateListMessages([emittedMessage, ...listMessages]);
+    }, [emittedMessage]);
 
     return (
         <div className="2xl:w-1/3 lg:w-1/2 sm:w-full px-1">
@@ -106,7 +110,6 @@ export default function MessageDetailCard({ eventIndex, messageIndex }) {
                                     key={`param-${index}`}
                                     multiline
                                     fullWidth
-                                    // className="w-full"
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">

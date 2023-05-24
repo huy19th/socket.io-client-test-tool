@@ -38,6 +38,7 @@ io.on("connection", (socket) => {
 
     socket.onAny((event, ...args) => {
         console.log({event, ...args});
+        socket.emit("server-response", "hello")
     });
 
 })
