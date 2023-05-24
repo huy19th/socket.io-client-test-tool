@@ -35,6 +35,7 @@ export default function Settings() {
                     <SettingsIcon />
                 </Fab>
             }
+            isOpen={true}
         >
             <div className="flex justify-center bg-neutral-100">
                 <div className="justify-center w-1/2 min-w-[700px] pt-6">

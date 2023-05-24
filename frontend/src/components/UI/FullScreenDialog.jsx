@@ -9,8 +9,8 @@ const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function FullScreenDialog({ children, title, icon }) {
-    const [open, setOpen] = useState(false);
+export default function FullScreenDialog({ children, title, icon, isOpen }) {
+    const [open, setOpen] = useState(isOpen);
 
     const handleClickOpen = () => {
         setOpen(true);
