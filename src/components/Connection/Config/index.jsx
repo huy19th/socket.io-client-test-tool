@@ -6,7 +6,7 @@ export default function Config() {
     return (
         <div className="w-full">
             <AddConfig />
-            <hr />
+            <hr className="border-t-[1px] border-neutral-500"/>
             <ListConfigs />
         </div>
     )

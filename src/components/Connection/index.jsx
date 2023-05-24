@@ -40,7 +40,7 @@ export default function Settings() {
             <div className="flex justify-center bg-neutral-100">
                 <div className="justify-center w-1/2 min-w-[700px] pt-6">
                     <Connect />
-                    <Card raised className="h-[calc(100vh-220px)] min-h-[450px]">
+                    <Card raised className="h-[calc(100vh-180px)] min-h-[450px] bg-white border-[1px] border-neutral-500">
                         <h1 className="text-center text-2xl pb-5">Settings</h1>
                         <Tabs tabs={tabs} className="w-full" />
                     </Card>

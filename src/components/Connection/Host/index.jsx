@@ -6,7 +6,7 @@ export default function Host() {
     return (
         <div className="w-full">
             <AddHost />
-            <hr />
+            <hr className="border-t-[1px] border-neutral-500"/>
             <ListHosts />
         </div>
     )
