@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { SettingsContext } from "../../../contexts";
-import { TextField, Button, IconButton } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 
 export default function AddConfig() {

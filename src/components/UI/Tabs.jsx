@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { Button } from "@mui/material";
 
 export default function Tabs({ tabs, className }) {

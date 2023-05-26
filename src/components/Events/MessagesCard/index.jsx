@@ -1,5 +1,4 @@
 import Card from "../../UI/Card";
-import { Typography } from "@mui/material";
 import MessagesContainer from "./MessagesContainer";
 
 export default function MessagesCard() {

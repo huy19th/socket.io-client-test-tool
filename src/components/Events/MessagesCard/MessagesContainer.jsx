@@ -13,6 +13,7 @@ export default function MessagesContainer() {
     useEffect(() => {
         if (!isConnected) return;
         socket.onAny((event, ...args) => {
+            args = args.map(item => JSON.stringify(item));
             setReceivedMessage({ isEmit: false, eventName: event, args });
         });
     }, [isConnected]);
