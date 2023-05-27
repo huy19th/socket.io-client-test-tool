@@ -8,7 +8,7 @@ export default function Connect() {
 
     const { settings } = useContext(SettingsContext);
 
-    const { socket, isConnected, connectSocket, disconnectSocket } = useContext(SocketContext);
+    const { isConnected, connectSocket, disconnectSocket } = useContext(SocketContext);
 
     const [host, setHost] = useState(settings.hosts[0] || "");
 

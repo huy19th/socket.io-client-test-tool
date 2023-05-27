@@ -1,9 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { SettingsContext, SocketContext, MessagesConext } from "../../../contexts";
 import Card from "../../UI/Card";
 import { TextField, InputAdornment, Tooltip, IconButton } from "@mui/material";
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
-import UploadFileIcon from '@mui/icons-material/UploadFile';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
@@ -13,7 +12,6 @@ import validateJSON from "../../../ultils/validateJson";
 
 export default function MessageDetailCard({ eventIndex, messageIndex }) {
 
-    const [emittedMessage, setEmittedMessage] = useState({});
 
     const { settings, updateSettings } = useContext(SettingsContext);
 
@@ -41,6 +39,20 @@ export default function MessageDetailCard({ eventIndex, messageIndex }) {
         saveMessagesInLocalStorage();
     }
 
+    const beautifyMessage = () => {
+        currentMessage = currentMessage.map(arg => {
+            let beautified;
+            if (validateJSON(arg)) {
+                beautified = JSON.stringify(JSON.parse(arg), null, "\t");
+            }
+            let result = beautified.length === arg.length ? JSON.stringify(JSON.parse(arg)) : beautified;
+            return result;
+        });
+        eventMessages.splice(messageIndex, 1, currentMessage);
+        updateSettings({ ...settings });
+        saveMessagesInLocalStorage();
+    }
+
     const addArg = () => {
         currentMessage.push("");
         updateSettings({ ...settings });
@@ -56,7 +68,7 @@ export default function MessageDetailCard({ eventIndex, messageIndex }) {
     const handleEmit = () => {
         if (!socket) return;
         let args = settings.messages[eventName][messageIndex];
-        args = args.map(item => {
+        let parsedArgs = args.map(item => {
             try {
                 return JSON.parse(item);
             }
@@ -64,20 +76,16 @@ export default function MessageDetailCard({ eventIndex, messageIndex }) {
                 return item;
             }
         });
-        socket.emit(eventName, ...args);
-        setEmittedMessage({ isEmit: true, eventName, args });
+        socket.emit(eventName, ...parsedArgs);
+        updateListMessages([{ isEmit: true, eventName, args }, ...listMessages]);
     }
 
     let options = generateArray([
         ["add arg", "top-start", <AddIcon size="small" />, addArg],
-        ["beautify", "top-start", <AutoFixHighIcon size="small" />, () => { }],
+        ["beautify", "top-start", <AutoFixHighIcon size="small" />, beautifyMessage],
         ["emit", "top-start", <UploadIcon size="small" />, handleEmit],
         ["delete", "top-start", <DeleteIcon size="small" />, deleteMessage]
     ], "title", "placement", "el", "handleClick");
-
-    useEffect(() => {
-        updateListMessages([emittedMessage, ...listMessages]);
-    }, [emittedMessage]);
 
     return (
         <div className="2xl:w-1/3 lg:w-1/2 sm:w-full px-1">

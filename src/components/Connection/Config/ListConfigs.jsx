@@ -8,8 +8,6 @@ export default function ListConfigs() {
 
     const { settings, updateSettings } = useContext(SettingsContext);
 
-    const initialState = { key: "", value: "" };
-
     const saveChanges = () => {
         localStorage.setItem("configs", JSON.stringify(settings.configs));
     }

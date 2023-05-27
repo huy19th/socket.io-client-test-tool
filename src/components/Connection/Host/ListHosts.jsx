@@ -34,7 +34,7 @@ export default function ListHosts() {
                         <div
                         key={`hosts-${index}`}
                         className="flex mb-2 space-x-2"
-                        disabled={isConnected ? socket.io.uri == item : false}
+                        disabled={isConnected ? socket.io.uri === item : false}
                         >
                             <TextField
                                 className="w-5/6"
