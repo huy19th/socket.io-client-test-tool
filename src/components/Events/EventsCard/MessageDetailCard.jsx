@@ -68,7 +68,6 @@ export default function MessageDetailCard({ eventIndex, messageIndex }) {
     const handleEmit = () => {
         if (!socket) return;
         let args = settings.messages[eventName][messageIndex];
-        // setEmittedMessage({ isEmit: true, eventName, args });
         let parsedArgs = args.map(item => {
             try {
                 return JSON.parse(item);

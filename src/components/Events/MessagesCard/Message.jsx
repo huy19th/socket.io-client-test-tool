@@ -9,42 +9,24 @@ import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import validateJSON from "../../../ultils/validateJson";
 
 
-export default function Message({ message, index }) {
+export default function Message({ message, index, beautifyMessage }) {
 
     const { listMessages, updateListMessages } = useContext(MessagesConext);
-
-    const [currentMessage, setCurrentMessage] = useState(message);
 
     const deleteMessage = () => {
         listMessages.splice(index, 1);
         updateListMessages([...listMessages]);
     }
 
-    const beautifyMessage = () => {
-        currentMessage.args = currentMessage.args.map(arg => {
-            let beautified;
-            if (validateJSON(arg)) {
-                beautified = JSON.stringify(JSON.parse(arg), null, "\t");
-            }
-            let result = beautified.length === arg.length ? JSON.stringify(JSON.parse(arg)) : beautified;
-            return result;
-        });
-        setCurrentMessage({...currentMessage});
-    }
-
-    useEffect(() => {
-        console.log(message);
-    }, [listMessages])
-
     return (
         <div className="w-full">
             <Card className={`border-neutral-500 border-[1px] w-[90%] 
-            float-${currentMessage.isEmit ? "left" : "right"}`}
+            float-${message.isEmit ? "left" : "right"}`}
             >
                 <div className="flex justify-between">
                     <div className="flex">
-                        {currentMessage.isEmit ? <UploadIcon /> : <DownloadIcon />}
-                        <p>{currentMessage.eventName}</p>
+                        {message.isEmit ? <UploadIcon /> : <DownloadIcon />}
+                        <p>{message.eventName}</p>
                     </div>
                     <div>
                         <Tooltip
@@ -53,7 +35,7 @@ export default function Message({ message, index }) {
                         >
                             <IconButton
                                 sx={{ padding: 0, marginRight: 1 }}
-                                onClick={beautifyMessage}
+                                onClick={() => beautifyMessage(index)}
                             >
                                 <AutoFixHighIcon />
                             </IconButton>
@@ -73,17 +55,18 @@ export default function Message({ message, index }) {
                 </div>
                 <div className="flex-row space-y-1">
                     {
-                        currentMessage.args ? currentMessage.args.length ?
-                            currentMessage.args.map((arg, index) => (
+                        message.args ? message.args.length ?
+                            message.args.map((arg, index) => (
                                 <TextField
                                     key={`param-${index}`}
                                     multiline
                                     // fullWidth
                                     className="w-full"
                                     maxRows={5}
+                                    value={arg.toString()}
                                     InputProps={{
                                         startAdornment: (
-                                            <InputAdornment position="start">
+                                            <InputAdornment position="start" sx={{}}>
                                                 {arg ? validateJSON(arg.toString()) ? "json:" : "text:" : null}
                                             </InputAdornment>
                                         ),
@@ -95,7 +78,7 @@ export default function Message({ message, index }) {
                                         },
                                         readOnly: true
                                     }}
-                                    value={arg.toString()}
+                                    InputA
                                 />
                             ))
                             : null : null
