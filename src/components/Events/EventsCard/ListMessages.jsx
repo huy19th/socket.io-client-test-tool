@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { SettingsContext } from "../../../contexts";
+import { SettingsContext } from "../../../contexts/SettingsContext";
 import { TextField, IconButton, Tooltip } from "@mui/material";
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import DeleteIcon from '@mui/icons-material/Delete';

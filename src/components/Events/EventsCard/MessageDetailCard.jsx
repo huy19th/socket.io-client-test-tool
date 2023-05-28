@@ -1,5 +1,7 @@
-import { useContext, useEffect } from "react";
-import { SettingsContext, SocketContext, MessagesConext } from "../../../contexts";
+import { useContext } from "react";
+import { SettingsContext } from "../../../contexts/SettingsContext";
+import { SocketContext } from "../../../contexts/SocketContext";
+import { ListMessagesConext } from "../../../contexts/ListMessagesContext";
 import Card from "../../UI/Card";
 import { TextField, InputAdornment, Tooltip, IconButton } from "@mui/material";
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
@@ -17,7 +19,7 @@ export default function MessageDetailCard({ eventIndex, messageIndex }) {
 
     const { socket } = useContext(SocketContext);
 
-    const { listMessages, updateListMessages } = useContext(MessagesConext);
+    const { listMessages, updateListMessages } = useContext(ListMessagesConext);
 
     let eventName = settings.events[eventIndex];
     let eventMessages = settings.messages[eventName];

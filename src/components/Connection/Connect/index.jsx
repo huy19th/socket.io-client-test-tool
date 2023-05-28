@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
-import { SettingsContext, SocketContext } from "../../../contexts";
+import { SettingsContext } from "../../../contexts/SettingsContext";
+import { SocketContext } from "../../../contexts/SocketContext";
 import { Button } from "@mui/material";
 import Select from "../../UI/Select";
 import { io } from "socket.io-client";

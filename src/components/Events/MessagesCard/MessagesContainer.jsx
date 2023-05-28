@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { MessagesConext, SocketContext } from "../../../contexts";
+import { ListMessagesConext } from "../../../contexts/ListMessagesContext";
+import { SocketContext } from "../../../contexts/SocketContext";
 import Message from "./Message";
 import validateJSON from "../../../ultils/validateJson";
 
@@ -7,7 +8,7 @@ export default function MessagesContainer() {
 
     const [receviedMessage, setReceivedMessage] = useState({});
 
-    const { listMessages, updateListMessages } = useContext(MessagesConext);
+    const { listMessages, updateListMessages } = useContext(ListMessagesConext);
 
     const { socket, isConnected } = useContext(SocketContext);
 
@@ -17,11 +18,13 @@ export default function MessagesContainer() {
             args = args.map(item => JSON.stringify(item));
             setReceivedMessage({ isEmit: false, eventName: event, args });
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isConnected]);
 
     useEffect(() => {
         if (!isConnected) return;
         updateListMessages([receviedMessage, ...listMessages]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [receviedMessage]);
 
     const beautifyMessage = (index) => {

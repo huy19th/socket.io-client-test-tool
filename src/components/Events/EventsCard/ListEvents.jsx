@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { SettingsContext } from "../../../contexts";
+import { SettingsContext } from "../../../contexts/SettingsContext";
 import { Chip } from "@mui/material";
 
 export default function ListEvents({ eventIndex, setEventIndex }) {
