@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { SettingsContext } from "../../../contexts";
+import { SettingsContext } from "../../../contexts/SettingsContext";
 import { TextField, InputAdornment, IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import validateJSON from "../../../ultils/validateJson";

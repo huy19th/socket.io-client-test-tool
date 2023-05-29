@@ -1,30 +1,19 @@
-import { createContext } from "react";
+import { ListMessagesContextProvider } from "./ListMessagesContext";
+import { SettingsContextProvider } from "./SettingsContext";
+import { SocketContextProvider } from "./SocketContext";
+import { ThemeContextProvider } from "./ThemeContext";
 
-export const SettingsContext = createContext({
-    settings: {
-        hosts: [],
-        configs: {},
-        tokens: [],
-        events: [],
-        args: {},
-        json: {},
-    },
-    updateSettings: (settings) => {}
-});
+export default function ContextProvider({ children }) {
 
-export const SocketContext = createContext({
-    isConnected: false,
-    socket: null,
-    connectSocket: (socket) => {},
-    disconnectSocket: () => {}
-});
-
-export const ThemeContext = createContext({
-    color: "color",
-    setColor: (color) => { }
-});
-
-export const MessagesConext = createContext({
-    listMessages: [],
-    updateListMessages: (message) => {}
-});
+    return (
+        <ListMessagesContextProvider>
+            <SettingsContextProvider>
+                <SocketContextProvider>
+                    <ThemeContextProvider>
+                        {children}
+                    </ThemeContextProvider>
+                </SocketContextProvider>
+            </SettingsContextProvider>
+        </ListMessagesContextProvider>
+    )
+}

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { SocketContext } from "../../../contexts";
+import { SocketContext } from "../../../contexts/SocketContext";
 import { Fab } from "@mui/material";
 import WifiIcon from '@mui/icons-material/Wifi';
 import WifiOffIcon from '@mui/icons-material/WifiOff';

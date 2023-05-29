@@ -1,5 +1,5 @@
-import { useContext, useState, useEffect } from "react";
-import { MessagesConext } from "../../../contexts";
+import { useContext } from "react";
+import { ListMessagesConext } from "../../../contexts/ListMessagesContext";
 import Card from "../../UI/Card";
 import { TextField, InputAdornment, Tooltip, IconButton } from "@mui/material";
 import DownloadIcon from '@mui/icons-material/Download';
@@ -11,7 +11,7 @@ import validateJSON from "../../../ultils/validateJson";
 
 export default function Message({ message, index, beautifyMessage }) {
 
-    const { listMessages, updateListMessages } = useContext(MessagesConext);
+    const { listMessages, updateListMessages } = useContext(ListMessagesConext);
 
     const deleteMessage = () => {
         listMessages.splice(index, 1);
