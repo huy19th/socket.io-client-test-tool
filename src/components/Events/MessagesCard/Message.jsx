@@ -4,7 +4,7 @@ import Card from "../../UI/Card";
 import { TextField, InputAdornment, Tooltip, IconButton } from "@mui/material";
 import DownloadIcon from '@mui/icons-material/Download';
 import UploadIcon from '@mui/icons-material/Upload';
-import DeleteIcon from '@mui/icons-material/Delete';
+import CloseIcon from '@mui/icons-material/Close';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import validateJSON from "../../../ultils/validateJson";
 
@@ -48,7 +48,7 @@ export default function Message({ message, index, beautifyMessage }) {
                                 sx={{ padding: 0, marginRight: 1 }}
                                 onClick={deleteMessage}
                             >
-                                <DeleteIcon />
+                                <CloseIcon />
                             </IconButton>
                         </Tooltip>
                     </div>
