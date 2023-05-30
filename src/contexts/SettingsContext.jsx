@@ -6,8 +6,7 @@ export const SettingsContext = createContext({
         configs: {},
         tokens: [],
         events: [],
-        args: {},
-        json: {},
+        messages: {},
     },
     updateSettings: (settings) => { }
 });
