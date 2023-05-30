@@ -7,7 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function MessagesCard() {
 
-    const {listMessages, updateListMessages} = useContext(ListMessagesConext);
+    const {updateListMessages} = useContext(ListMessagesConext);
 
     return (
         <Card className="border-[1px] h-1/3 border-neutral-500 bg-white w-1/2 h-full">

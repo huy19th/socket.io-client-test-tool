@@ -52,6 +52,8 @@ export default function ListMessages({ eventIndex, setEventIndex }) {
 
     const updateEvent = (event) => {
         settings.events[eventIndex] = event.target.value;
+        settings.messages[event.target.value] = JSON.parse(JSON.stringify(settings.messages[eventName]));
+        delete settings.messages[eventName];
         updateSettings({ ...settings });
         saveEventsInLocalStorage();
     }
@@ -72,6 +74,7 @@ export default function ListMessages({ eventIndex, setEventIndex }) {
     const emitAllMessages = () => {
         if (!isConnected) return;
         let eventMessages = settings.messages[eventName];
+        let emittedMessages = [];
         eventMessages.forEach((message) => {
             let parsedMessage = message.map(item => {
                 try {
@@ -80,10 +83,13 @@ export default function ListMessages({ eventIndex, setEventIndex }) {
                 catch (err) {
                     return item;
                 }
-            })
-            socket.emit(eventName, ...parsedMessage);
-            updateListMessages([{isEmit: true, eventName, message}, ...listMessages]);
+            });
+            setTimeout(() => {
+                socket.emit(eventName, ...parsedMessage);
+            }, 1000);
+            emittedMessages.unshift({isEmit: true, eventName, args: message});
         });
+        updateListMessages([...emittedMessages, listMessages]);
     }
 
     const data = generateArray([
@@ -95,9 +101,8 @@ export default function ListMessages({ eventIndex, setEventIndex }) {
     if (eventIndex < 0) return <></>;
 
     return (
-        <div>
-            <div className="flex h-1/3">
-
+        <div className="h-full">
+            <div className="flex">
                 <TextField
                     size="small"
                     fullWidth
@@ -118,26 +123,9 @@ export default function ListMessages({ eventIndex, setEventIndex }) {
                         </Tooltip>
                     ))
                 }
-                {/* <Tooltip
-                    title="Add Message"
-                    placement="top-start"
-                >
-                    <IconButton onClick={addMessage}>
-                        <PostAddIcon />
-                    </IconButton>
-                </Tooltip>
-                <Tooltip
-                    title="Delete Event"
-                    placement="top-start"
-                >
-                    <IconButton onClick={deleteEvent}>
-                        <DeleteIcon />
-                    </IconButton>
-                </Tooltip> */}
-
             </div>
             <hr className="my-3 border-neutral-500" />
-            <div className="flex flex-wrap overflow-auto">
+            <div className="flex flex-wrap overflow-auto h-[calc(100%-80px)]">
                 {
                     settings.messages[eventName] ?
                         settings.messages[eventName].map((message, index) => (
