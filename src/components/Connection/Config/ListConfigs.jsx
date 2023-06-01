@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { SettingsContext } from "../../../contexts/SettingsContext";
 import { TextField, InputAdornment, IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
-import validateJSON from "../../../ultils/validateJson";
+import { validateJSON } from "../../../ultils";
 
 export default function ListConfigs() {
 

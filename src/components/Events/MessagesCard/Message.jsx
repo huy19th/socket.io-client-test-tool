@@ -1,22 +1,13 @@
-import { useContext } from "react";
-import { ListMessagesConext } from "../../../contexts/ListMessagesContext";
 import Card from "../../UI/Card";
 import { TextField, InputAdornment, Tooltip, IconButton } from "@mui/material";
 import DownloadIcon from '@mui/icons-material/Download';
 import UploadIcon from '@mui/icons-material/Upload';
 import CloseIcon from '@mui/icons-material/Close';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
-import validateJSON from "../../../ultils/validateJson";
+import { validateJSON } from "../../../ultils";
 
 
-export default function Message({ message, index, beautifyMessage }) {
-
-    const { listMessages, updateListMessages } = useContext(ListMessagesConext);
-
-    const deleteMessage = () => {
-        listMessages.splice(index, 1);
-        updateListMessages([...listMessages]);
-    }
+export default function Message({ message, beautifyMessage, deleteMessage }) {
 
     return (
         <div className="w-full">
@@ -35,7 +26,7 @@ export default function Message({ message, index, beautifyMessage }) {
                         >
                             <IconButton
                                 sx={{ padding: 0, marginRight: 1 }}
-                                onClick={() => beautifyMessage(index)}
+                                onClick={beautifyMessage}
                             >
                                 <AutoFixHighIcon />
                             </IconButton>
@@ -60,7 +51,6 @@ export default function Message({ message, index, beautifyMessage }) {
                                 <TextField
                                     key={`param-${index}`}
                                     multiline
-                                    // fullWidth
                                     className="w-full"
                                     maxRows={5}
                                     value={arg.toString()}
