@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { SettingsContext } from "../../../contexts/SettingsContext";
+import { EventContext } from "../../../contexts/EventContext";
 import { SocketContext } from "../../../contexts/SocketContext";
 import Card from "../../UI/Card";
 import { TextField, InputAdornment, Tooltip, IconButton } from "@mui/material";
@@ -8,57 +8,21 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import UploadIcon from '@mui/icons-material/Upload';
-import { validateJSON, generateArray, beautifyStringIfValidJSON } from "../../../ultils";
+import { validateJSON, generateArray } from "../../../ultils";
 
 export default function MessageDetailCard({ eventIndex, messageIndex }) {
 
-
-    const { settings, updateSettings } = useContext(SettingsContext);
+    const {events, messages, MessageSettings} = useContext(EventContext);
 
     const { emitEvent } = useContext(SocketContext);
 
-    let eventName = settings.events[eventIndex];
-    let eventMessages = settings.messages[eventName];
+    let eventName = events[eventIndex];
+    let eventMessages = messages[eventName];
     let currentMessage = eventMessages[messageIndex];
-
-    const saveMessagesInLocalStorage = () => {
-        localStorage.setItem("messages", JSON.stringify(settings.messages));
-    }
-
-    const updateMessage = (event, argIndex) => {
-        currentMessage[argIndex] = event.target.value;
-        updateSettings({ ...settings });
-        saveMessagesInLocalStorage();
-    }
-
-    const deleteMessage = () => {
-        eventMessages.splice(messageIndex, 1);
-        updateSettings({ ...settings });
-        saveMessagesInLocalStorage();
-    }
-
-    const beautifyMessage = () => {
-        currentMessage = currentMessage.map(arg => beautifyStringIfValidJSON(arg));
-        eventMessages.splice(messageIndex, 1, currentMessage);
-        updateSettings({ ...settings });
-        saveMessagesInLocalStorage();
-    }
-
-    const addArg = () => {
-        currentMessage.push("");
-        updateSettings({ ...settings });
-        saveMessagesInLocalStorage();
-    }
-
-    const deleteArg = (argIndex) => {
-        currentMessage.splice(argIndex, 1);
-        updateSettings({ ...settings });
-        saveMessagesInLocalStorage();
-    }
 
     let options = generateArray([
         ["add arg", "top-start", <AddIcon size="small" />, addArg],
-        ["beautify", "top-start", <AutoFixHighIcon size="small" />, beautifyMessage],
+        ["beautify", "top-start", <AutoFixHighIcon size="small" />, () => MessageSettings.beautify(eventName, messageIndex)],
         ["emit", "top-start", <UploadIcon size="small" />, () => emitEvent(eventName, currentMessage)],
         ["delete", "top-start", <DeleteIcon size="small" />, deleteMessage]
     ], "title", "placement", "el", "handleClick");

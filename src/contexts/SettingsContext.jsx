@@ -8,7 +8,6 @@ export const SettingsContext = createContext({
         events: [],
         messages: {},
     },
-    saveSettings: (settings) => { },
     TokenSettings: class {
         static save() { };
         static add(token) { };
@@ -113,7 +112,6 @@ export function SettingsContextProvider({ children }) {
         <SettingsContext.Provider
             value={{
                 settings,
-                saveSettings,
                 TokenSettings,
                 ConfigSettings,
                 HostSettings

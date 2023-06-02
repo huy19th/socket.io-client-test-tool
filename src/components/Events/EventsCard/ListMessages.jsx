@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { SettingsContext } from "../../../contexts/SettingsContext";
+import { EventContext } from "../../../contexts/EventContext";
 import { SocketContext } from "../../../contexts/SocketContext";
 import { TextField, IconButton, Tooltip } from "@mui/material";
 import PostAddIcon from '@mui/icons-material/PostAdd';
@@ -10,64 +11,20 @@ import { generateArray } from "../../../ultils";
 
 export default function ListMessages({ eventIndex, setEventIndex }) {
 
-    const { settings, updateSettings } = useContext(SettingsContext);
+    const {events, messages, EventSettings, MessageSettings} = useContext(EventContext);
 
-    const { emitAllMessagesEvent} = useContext(SocketContext);
+    const { emitAllMessagesEvent } = useContext(SocketContext);
 
-    let eventName = settings.events[eventIndex];
-    let eventMessages = settings.messages[eventName];
-
-    const saveEventsInLocalStorage = () => {
-        localStorage.setItem("events", JSON.stringify(settings.events));
-    }
-
-    const saveMessagesInLocalStorage = () => {
-        localStorage.setItem("messages", JSON.stringify(settings.messages));
-    }
-
-    const deleteEventMessages = (eventName) => {
-        let messages = settings.messages;
-        if (!messages) return;
-        if (!messages[eventName]) return;
-        delete messages[eventName];
-        localStorage.setItem("messages", JSON.stringify(messages));
-        setEventIndex(-1);
-    }
+    let eventName = events[eventIndex];
+    let eventMessages = messages[eventName];
 
     const deleteEvent = () => {
-        let eventName = settings.events[eventIndex];
-        settings.events.splice(eventIndex, 1);
-        delete settings.messages[eventName];
-        updateSettings({ ...settings });
-        deleteEventMessages(eventName);
-        saveEventsInLocalStorage();
+        EventSettings.delete(eventIndex);
         setEventIndex(-1);
     }
 
-    const updateEvent = (event) => {
-        settings.events[eventIndex] = event.target.value;
-        settings.messages[event.target.value] = JSON.parse(JSON.stringify(settings.messages[eventName]));
-        delete settings.messages[eventName];
-        updateSettings({ ...settings });
-        saveEventsInLocalStorage();
-    }
-
-    const addMessage = () => {
-        let eventName = settings.events[eventIndex];
-        let eventMessages = settings.messages[eventName];
-        if (eventMessages) {
-            eventMessages.push([""]);
-        }
-        else {
-            settings.messages[eventName] = [[""]];
-        }
-        updateSettings({ ...settings });
-        saveMessagesInLocalStorage();
-    }
-
-
     const data = generateArray([
-        ["Add Message", "top-start", <PostAddIcon />, addMessage],
+        ["Add Message", "top-start", <PostAddIcon />, () => MessageSettings.addMessage(eventName)],
         ["Emit All Messages", "top-start", <UploadIcon />, () => emitAllMessagesEvent(eventName, eventMessages)],
         ["Delete Event", "top-start", <DeleteIcon />, deleteEvent]
     ], "title", "placement", "icon", "handleClick");
@@ -81,8 +38,8 @@ export default function ListMessages({ eventIndex, setEventIndex }) {
                     size="small"
                     fullWidth
                     sx={{ paddingRight: 1 }}
-                    value={settings.events[eventIndex]}
-                    onChange={updateEvent}
+                    value={events[eventIndex]}
+                    onChange={event => EventSettings.update(eventIndex, event)}
                 />
                 {
                     data.map((item, index) => (
@@ -101,8 +58,8 @@ export default function ListMessages({ eventIndex, setEventIndex }) {
             <hr className="my-3 border-neutral-500" />
             <div className="flex flex-wrap overflow-auto h-[calc(100%-80px)]">
                 {
-                    settings.messages[eventName] ?
-                        settings.messages[eventName].map((message, index) => (
+                    messages[eventName] ?
+                        messages[eventName].map((message, index) => (
                             <MessageDetailCard
                                 key={`message-${index}`}
                                 eventIndex={eventIndex}
