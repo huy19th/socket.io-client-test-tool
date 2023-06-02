@@ -4,6 +4,7 @@ import { SocketContext } from "../../../contexts/SocketContext";
 import { Button } from "@mui/material";
 import Select from "../../UI/Select";
 import { io } from "socket.io-client";
+import { parseObjectValues } from "../../../ultils";
 
 export default function Connect() {
 
@@ -29,17 +30,9 @@ export default function Connect() {
         if (!isConnected) {
             try {
                 let auth = token.trim() ? { token: token.trim() } : undefined;
-                let parsedConfig = {};
-                Object.keys(settings.configs).forEach(configKey => {
-                    try {
-                        parsedConfig[configKey] = JSON.parse(settings.configs[configKey]);
-                    }
-                    catch (err) {
-                        parsedConfig[configKey] = settings.configs[configKey];
-                    }
-                });
+                let parsedConfig = parseObjectValues(settings.configs);
                 let newSocket = io(host, { ...parsedConfig, auth });
-                
+
                 await new Promise((resolve, reject) => {
                     let waitTime = 3;
                     let waitConnect = setInterval(() => {
@@ -94,7 +87,7 @@ export default function Connect() {
             >
                 {isConnected ? "Disconnect" : "Connect"}
             </Button>
-            
+
         </div>
     )
 }

@@ -1,27 +1,21 @@
 import { useContext } from "react";
 import { SettingsContext } from "../../../contexts/SettingsContext";
 import { SocketContext } from "../../../contexts/SocketContext";
-import { ListMessagesConext } from "../../../contexts/ListMessagesContext";
 import { TextField, IconButton, Tooltip } from "@mui/material";
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MessageDetailCard from "./MessageDetailCard";
 import UploadIcon from '@mui/icons-material/Upload';
-import generateArray from "../../../ultils/generateArray";
+import { generateArray } from "../../../ultils";
 
 export default function ListMessages({ eventIndex, setEventIndex }) {
 
     const { settings, updateSettings } = useContext(SettingsContext);
 
-    const { socket, isConnected } = useContext(SocketContext);
-
-    const {listMessages, updateListMessages} = useContext(ListMessagesConext);
+    const { emitAllMessagesEvent} = useContext(SocketContext);
 
     let eventName = settings.events[eventIndex];
-
-    const getMessages = () => {
-        return JSON.parse(localStorage.getItem("messages"));
-    }
+    let eventMessages = settings.messages[eventName];
 
     const saveEventsInLocalStorage = () => {
         localStorage.setItem("events", JSON.stringify(settings.events));
@@ -32,7 +26,7 @@ export default function ListMessages({ eventIndex, setEventIndex }) {
     }
 
     const deleteEventMessages = (eventName) => {
-        let messages = getMessages();
+        let messages = settings.messages;
         if (!messages) return;
         if (!messages[eventName]) return;
         delete messages[eventName];
@@ -71,30 +65,10 @@ export default function ListMessages({ eventIndex, setEventIndex }) {
         saveMessagesInLocalStorage();
     }
 
-    const emitAllMessages = () => {
-        if (!isConnected) return;
-        let eventMessages = settings.messages[eventName];
-        let emittedMessages = [];
-        eventMessages.forEach((message) => {
-            let parsedMessage = message.map(item => {
-                try {
-                    return JSON.parse(item);
-                }
-                catch (err) {
-                    return item;
-                }
-            });
-            setTimeout(() => {
-                socket.emit(eventName, ...parsedMessage);
-            }, 1000);
-            emittedMessages.unshift({isEmit: true, eventName, args: message});
-        });
-        updateListMessages([...emittedMessages, listMessages]);
-    }
 
     const data = generateArray([
         ["Add Message", "top-start", <PostAddIcon />, addMessage],
-        ["Emit All Messages", "top-start", <UploadIcon />, emitAllMessages],
+        ["Emit All Messages", "top-start", <UploadIcon />, () => emitAllMessagesEvent(eventName, eventMessages)],
         ["Delete Event", "top-start", <DeleteIcon />, deleteEvent]
     ], "title", "placement", "icon", "handleClick");
 

@@ -5,13 +5,9 @@ import { TextField, Button } from "@mui/material";
 
 export default function AddToken() {
 
-    const { settings, updateSettings } = useContext(SettingsContext);
+    const { TokenSettings } = useContext(SettingsContext);
 
     const [token, setToken] = useState({ note: "", token: "" });
-
-    const saveChanges = () => {
-        localStorage.setItem("tokens", JSON.stringify(settings.tokens));
-    }
 
     const handleChange = ({ target: { name, value } }) => {
         setToken({ ...token, [name]: value });
@@ -19,13 +15,10 @@ export default function AddToken() {
 
     const handleAdd = () => {
         if (!token.token || !token.note) {
-            alert("Please input note & token")
-            return;
+            return alert("Please input note & token");
         }
-        settings.tokens = [...settings.tokens, token];
-        updateSettings({ ...settings });
+        TokenSettings.add(token);
         setToken({ note: "", token: "" });
-        saveChanges();
     }
 
     return (

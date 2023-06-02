@@ -5,15 +5,11 @@ import AddIcon from '@mui/icons-material/Add';
 
 export default function AddConfig() {
 
-    const { settings, updateSettings } = useContext(SettingsContext);
+    const { ConfigSettings } = useContext(SettingsContext);
 
     const initialState = { key: "", value: "" };
 
     const [config, setConfig] = useState(initialState);
-
-    const saveChanges = () => {
-        localStorage.setItem("configs", JSON.stringify(settings.configs));
-    }
 
     const handleChange = ({ target: { name, value } }) => {
         setConfig({ ...config, [name]: value });
@@ -21,13 +17,10 @@ export default function AddConfig() {
 
     const handleAdd = () => {
         if (!config.key || !config.value) {
-            alert("Please input key & value");
-            return;
+            return alert("Please input key & value");
         }
-        settings.configs = { ...settings.configs, [config.key]: config.value };
-        updateSettings({ ...settings });
+        ConfigSettings.add(config);
         setConfig({ ...initialState });
-        saveChanges();
     }
 
     return (

@@ -6,7 +6,7 @@ import WifiOffIcon from '@mui/icons-material/WifiOff';
 
 export default function ConnectionStatus() {
 
-    const { isConnected } = useContext(SocketContext);
+    const { socket } = useContext(SocketContext);
 
     return (
         <Fab
@@ -17,9 +17,9 @@ export default function ConnectionStatus() {
             }}
             aria-label="settings"
             size="small"
-            color={isConnected ? "primary" : ""}
+            color={socket.connected ? "primary" : ""}
         >
-            {isConnected ? <WifiIcon /> : <WifiOffIcon />}
+            {socket.connected ? <WifiIcon /> : <WifiOffIcon />}
         </Fab>
     )
 }

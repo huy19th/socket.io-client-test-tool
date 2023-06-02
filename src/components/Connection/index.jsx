@@ -7,8 +7,7 @@ import Connect from "./Connect";
 import { Fab } from "@mui/material";
 import SettingsIcon from '@mui/icons-material/Settings';
 import FullScreenDialog from "../UI/FullScreenDialog";
-import generateArray from "../../ultils/generateArray";
-
+import { generateArray } from "../../ultils";
 
 export default function Settings() {
 

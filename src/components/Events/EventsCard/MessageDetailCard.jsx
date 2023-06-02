@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { SettingsContext } from "../../../contexts/SettingsContext";
 import { SocketContext } from "../../../contexts/SocketContext";
-import { ListMessagesConext } from "../../../contexts/ListMessagesContext";
 import Card from "../../UI/Card";
 import { TextField, InputAdornment, Tooltip, IconButton } from "@mui/material";
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
@@ -9,17 +8,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import UploadIcon from '@mui/icons-material/Upload';
-import generateArray from "../../../ultils/generateArray";
-import validateJSON from "../../../ultils/validateJson";
+import { validateJSON, generateArray, beautifyStringIfValidJSON } from "../../../ultils";
 
 export default function MessageDetailCard({ eventIndex, messageIndex }) {
 
 
     const { settings, updateSettings } = useContext(SettingsContext);
 
-    const { socket } = useContext(SocketContext);
-
-    const { listMessages, updateListMessages } = useContext(ListMessagesConext);
+    const { emitEvent } = useContext(SocketContext);
 
     let eventName = settings.events[eventIndex];
     let eventMessages = settings.messages[eventName];
@@ -42,14 +38,7 @@ export default function MessageDetailCard({ eventIndex, messageIndex }) {
     }
 
     const beautifyMessage = () => {
-        currentMessage = currentMessage.map(arg => {
-            let beautified;
-            if (validateJSON(arg)) {
-                beautified = JSON.stringify(JSON.parse(arg), null, "\t");
-            }
-            let result = beautified.length === arg.length ? JSON.stringify(JSON.parse(arg)) : beautified;
-            return result;
-        });
+        currentMessage = currentMessage.map(arg => beautifyStringIfValidJSON(arg));
         eventMessages.splice(messageIndex, 1, currentMessage);
         updateSettings({ ...settings });
         saveMessagesInLocalStorage();
@@ -67,25 +56,10 @@ export default function MessageDetailCard({ eventIndex, messageIndex }) {
         saveMessagesInLocalStorage();
     }
 
-    const handleEmit = () => {
-        if (!socket) return;
-        let args = settings.messages[eventName][messageIndex];
-        let parsedArgs = args.map(item => {
-            try {
-                return JSON.parse(item);
-            }
-            catch (err) {
-                return item;
-            }
-        });
-        socket.emit(eventName, ...parsedArgs);
-        updateListMessages([{ isEmit: true, eventName, args }, ...listMessages]);
-    }
-
     let options = generateArray([
         ["add arg", "top-start", <AddIcon size="small" />, addArg],
         ["beautify", "top-start", <AutoFixHighIcon size="small" />, beautifyMessage],
-        ["emit", "top-start", <UploadIcon size="small" />, handleEmit],
+        ["emit", "top-start", <UploadIcon size="small" />, () => emitEvent(eventName, currentMessage)],
         ["delete", "top-start", <DeleteIcon size="small" />, deleteMessage]
     ], "title", "placement", "el", "handleClick");
 
