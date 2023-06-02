@@ -7,25 +7,9 @@ import { TextField, IconButton } from "@mui/material";
 
 export default function ListHosts() {
 
-    const { settings, updateSettings } = useContext(SettingsContext);
+    const { settings, HostSettings } = useContext(SettingsContext);
 
-    const { socket, isConnected } = useContext(SocketContext);
-
-    const saveChanges = () => {
-        localStorage.setItem("hosts", JSON.stringify(settings.hosts));
-    }
-
-    const handleDelete = (index) => {
-        settings.hosts.splice(index, 1);
-        updateSettings({ ...settings });
-        saveChanges();
-    }
-
-    const handleUpdate = (index, event) => {
-        settings.hosts[index] = event.target.value;
-        updateSettings({ ...settings });
-        saveChanges();
-    }
+    const { socket } = useContext(SocketContext);
 
     return (
         <div className="my-3 pt-0 h-[calc(100vh-380px)] min-h-[230px] overflow-auto">
@@ -35,16 +19,15 @@ export default function ListHosts() {
                         <div
                         key={`hosts-${index}`}
                         className="flex mb-2 space-x-2"
-                        disabled={isConnected ? socket.io.uri === item : false}
+                        disabled={socket.connected ? socket.io.uri === item : false}
                         >
                             <TextField
                                 className="w-5/6"
                                 size="small"
-                                name={`hosts-${index}`}
                                 value={item}
-                                onChange={(event) => handleUpdate(index, event)}
+                                onChange={(event) => HostSettings.update(index, event)}
                             />
-                            <IconButton onClick={() => handleDelete(index)}>
+                            <IconButton onClick={() => HostSettings.delete(index)}>
                                 <DeleteIcon />
                             </IconButton>
                         </div>

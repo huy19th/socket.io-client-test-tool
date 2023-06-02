@@ -21,6 +21,12 @@ export const SettingsContext = createContext({
         static delete(key) { };
         static update(event) { };
     },
+    HostSettings: class {
+        static save() { };
+        static add(config) { };
+        static delete(key) { };
+        static update(event) { };
+    },
 });
 
 export function SettingsContextProvider({ children }) {
@@ -47,7 +53,7 @@ export function SettingsContextProvider({ children }) {
             this.save();
         };
         static delete(index) {
-            settings.tokens.splice(index);
+            settings.tokens.splice(index, 1);
             this.save();
         };
         static update({ target: { name, value } }) {
@@ -84,13 +90,33 @@ export function SettingsContextProvider({ children }) {
         }
     }
 
+    class HostSettings {
+        static save() {
+            saveSettings();
+            localStorage.setItem("hosts", JSON.stringify(settings.hosts));
+        }
+        static add(host) {
+            settings.hosts = [...settings.hosts, host];
+            this.save();
+        }
+        static delete(index) {
+            settings.hosts.splice(index, 1);
+            this.save();
+        }
+        static update(index, { target: { value } }) {
+            settings.hosts[index] = value;
+            this.save();
+        }
+    }
+
     return (
         <SettingsContext.Provider
             value={{
                 settings,
                 saveSettings,
                 TokenSettings,
-                ConfigSettings
+                ConfigSettings,
+                HostSettings
             }}
         >
             {children}

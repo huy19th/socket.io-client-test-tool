@@ -5,20 +5,14 @@ import { TextField, Button } from "@mui/material";
 
 export default function AddHost() {
 
-    const { settings, updateSettings } = useContext(SettingsContext);
+    const { HostSettings } = useContext(SettingsContext);
 
-    const [state, setState] = useState("");
-
-    const saveChanges = () => {
-        localStorage.setItem("hosts", JSON.stringify(settings.hosts));
-    }
+    const [host, setHost] = useState("");
 
     const handleAdd = () => {
-        if (!state) return;
-        settings.hosts = [...settings.hosts, state];
-        updateSettings({ ...settings });
-        setState("");
-        saveChanges();
+        if (!host) return;
+        HostSettings.add(host);
+        setHost("");
     }
 
     return (
@@ -27,8 +21,8 @@ export default function AddHost() {
                 className="w-5/6"
                 size="small"
                 placeholder="Host"
-                value={state}
-                onChange={event => setState(event.target.value)}
+                value={host}
+                onChange={event => setHost(event.target.value)}
             />
             <Button
                 variant="contained"

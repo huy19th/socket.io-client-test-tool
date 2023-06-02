@@ -6,7 +6,7 @@ import { validateJSON } from "../../../ultils";
 
 export default function ListConfigs() {
 
-    const { ConfigSettings } = useContext(SettingsContext);
+    const { settings, ConfigSettings } = useContext(SettingsContext);
 
     return (
         <div className="my-3 pt-0">

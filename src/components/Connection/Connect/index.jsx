@@ -10,7 +10,7 @@ export default function Connect() {
 
     const { settings } = useContext(SettingsContext);
 
-    const { isConnected, connectSocket, disconnectSocket } = useContext(SocketContext);
+    const { socket, connectSocket, disconnectSocket } = useContext(SocketContext);
 
     const [host, setHost] = useState(settings.hosts[0] || "");
 
@@ -27,7 +27,7 @@ export default function Connect() {
     tokenOptions.unshift({ key: "No Token", value: " " });
 
     const handleConnect = async () => {
-        if (!isConnected) {
+        if (!socket.connected) {
             try {
                 let auth = token.trim() ? { token: token.trim() } : undefined;
                 let parsedConfig = parseObjectValues(settings.configs);
@@ -66,7 +66,7 @@ export default function Connect() {
             <Select
                 className="bg-white w-1/2"
                 helperText="Host"
-                disabled={isConnected}
+                disabled={socket.connected}
                 options={hostOptions}
                 value={host}
                 handleChange={setHost}
@@ -74,7 +74,7 @@ export default function Connect() {
             <Select
                 className="bg-white w-1/4"
                 helperText="Auth"
-                disabled={isConnected}
+                disabled={socket.connected}
                 options={tokenOptions}
                 value={token}
                 handleChange={setToken}
@@ -85,7 +85,7 @@ export default function Connect() {
                 sx={{ mt: "19px" }}
                 onClick={handleConnect}
             >
-                {isConnected ? "Disconnect" : "Connect"}
+                {socket.connected ? "Disconnect" : "Connect"}
             </Button>
 
         </div>
