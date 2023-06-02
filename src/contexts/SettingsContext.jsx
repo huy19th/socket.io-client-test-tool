@@ -15,6 +15,12 @@ export const SettingsContext = createContext({
         static delete(index) { };
         static update(event) { };
     },
+    ConfigSettings: class {
+        static save() { };
+        static add(config) { };
+        static delete(key) { };
+        static update(event) { };
+    },
 });
 
 export function SettingsContextProvider({ children }) {
@@ -51,12 +57,40 @@ export function SettingsContextProvider({ children }) {
         };
     }
 
+    class ConfigSettings {
+        static save() {
+            saveSettings();
+            localStorage.setItem("configs", JSON.stringify(settings.configs));
+        };
+        static add(config) {
+            config = JSON.parse(JSON.stringify(config));
+            settings.configs = { ...settings.configs, [config.key]: config.value };
+            this.save();
+        }
+        static delete(key) {
+            delete settings.configs[key];
+            this.save();
+        }
+        static update({ target: { name, value } }) {
+            let [toUpdate, key] = name.split("-");
+            if (toUpdate === "value") {
+                settings.configs[key] = value;
+            }
+            else {
+                settings.configs[value] = JSON.parse(JSON.stringify(settings.configs[key]));
+                delete settings.configs[key];
+            }
+            this.save();
+        }
+    }
+
     return (
         <SettingsContext.Provider
             value={{
                 settings,
                 saveSettings,
-                TokenSettings
+                TokenSettings,
+                ConfigSettings
             }}
         >
             {children}
