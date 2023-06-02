@@ -5,24 +5,7 @@ import { TextField, IconButton } from "@mui/material";
 
 export default function ListTokens() {
 
-    const { settings, updateSettings } = useContext(SettingsContext);
-
-    const saveChanges = () => {
-        localStorage.setItem("tokens", JSON.stringify(settings.tokens));
-    }
-
-    const handleDelete = (index) => {
-        settings.tokens.splice(index, 1);
-        updateSettings({ ...settings });
-        saveChanges();
-    }
-
-    const handleUpdate = ({ target: { name, value } }) => {
-        let [prop, index] = name.split("-");
-        settings.tokens[index] = { ...settings.tokens[index], [prop]: value }
-        updateSettings({ ...settings });
-        saveChanges();
-    }
+    const { settings, TokenSettings } = useContext(SettingsContext);
 
     return (
         <div className="my-3 pt-0">
@@ -35,16 +18,16 @@ export default function ListTokens() {
                                 size="small"
                                 name={`note-${index}`}
                                 value={item.note}
-                                onChange={handleUpdate}
+                                onChange={TokenSettings.update}
                             />
                             <TextField
                                 className="w-7/12"
                                 size="small"
                                 name={`token-${index}`}
                                 value={item.token}
-                                onChange={handleUpdate}
+                                onChange={TokenSettings.update}
                             />
-                            <IconButton onClick={() => handleDelete(index)}>
+                            <IconButton onClick={() => TokenSettings.delete(index)}>
                                 <DeleteIcon />
                             </IconButton>
 
