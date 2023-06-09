@@ -3,6 +3,7 @@ import { SettingsContextProvider } from "./SettingsContext";
 import { SocketContextProvider } from "./SocketContext";
 import { ThemeContextProvider } from "./ThemeContext";
 import { EventContextProvider } from "./EventContext";
+import { OptionsContextProvider } from "./OptionsContext";
 
 export default function ContextProvider({ children }) {
 
@@ -12,7 +13,9 @@ export default function ContextProvider({ children }) {
                 <EventContextProvider>
                     <SocketContextProvider>
                         <ThemeContextProvider>
-                            {children}
+                            <OptionsContextProvider>
+                                {children}
+                            </OptionsContextProvider>
                         </ThemeContextProvider>
                     </SocketContextProvider>
                 </EventContextProvider>

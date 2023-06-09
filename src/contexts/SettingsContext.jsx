@@ -92,6 +92,7 @@ export function SettingsContextProvider({ children }) {
         static delete(index) {
             settings.tokens.splice(index, 1);
             this.save();
+            console.log(this)
         };
         static update({ target: { name, value } }) {
             let [prop, index] = name.split("-");

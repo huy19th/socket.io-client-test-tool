@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { SettingsContext } from "../../../contexts/SettingsContext";
-import { TextField, InputAdornment, IconButton } from "@mui/material";
+import { OptionsContext } from "../../../contexts/OptionsContext";
+import { TextField, InputAdornment, IconButton, Checkbox } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { validateJSON } from "../../../ultils";
 
@@ -8,12 +9,18 @@ export default function ListOthers() {
 
     const { settings, QuerySettings } = useContext(SettingsContext);
 
+    const { options, updateOptions } = useContext(OptionsContext);
+
     return (
         <div className="my-3 pt-0">
             {
-                settings.queries.length ?
-                    settings.queries.map((item, index) => (
+                settings.others.length ?
+                    settings.others.map((item, index) => (
                         <div key={index} className="flex mb-2 space-x-2">
+                            <Checkbox
+                                checked={options.others[Object.keys(item)[0]] === Object.values(item)[0]}
+                                onClick={() => updateOptions("others", item)}
+                            />
                             <TextField
                                 className="w-1/4"
                                 size="small"
