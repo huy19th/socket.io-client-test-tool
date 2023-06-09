@@ -3,7 +3,6 @@ import { SettingsContext } from "../../../contexts/SettingsContext";
 import { SocketContext } from "../../../contexts/SocketContext";
 import { Button } from "@mui/material";
 import Select from "../../UI/Select";
-import { io } from "socket.io-client";
 import { parseObjectValues } from "../../../ultils";
 
 export default function Connect() {
@@ -30,26 +29,8 @@ export default function Connect() {
         if (!socket.connected) {
             try {
                 let auth = token.trim() ? { token: token.trim() } : undefined;
-                let parsedConfig = parseObjectValues(settings.configs);
-                let newSocket = io(host, { ...parsedConfig, auth });
-
-                await new Promise((resolve, reject) => {
-                    let waitTime = 3;
-                    let waitConnect = setInterval(() => {
-                        if (newSocket.connected) {
-                            resolve(true);
-                            alert("Connected");
-                            connectSocket(newSocket);
-                            clearInterval(waitConnect);
-                        }
-                        if (!waitTime) {
-                            newSocket.disconnect();
-                            alert("Connect failed")
-                            clearInterval(waitConnect);
-                        }
-                        waitTime--;
-                    }, 1000);
-                });
+                let parsedHeader = parseObjectValues(settings.headers);
+                connectSocket(host, { extraHeaders: parsedHeader, auth })
             }
             catch (err) {
                 console.log(err);

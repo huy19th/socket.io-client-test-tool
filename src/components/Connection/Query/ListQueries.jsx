@@ -4,38 +4,38 @@ import { TextField, InputAdornment, IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { validateJSON } from "../../../ultils";
 
-export default function ListConfigs() {
+export default function ListQueries() {
 
-    const { settings, ConfigSettings } = useContext(SettingsContext);
+    const { settings, QuerySettings } = useContext(SettingsContext);
 
     return (
         <div className="my-3 pt-0">
             {
-                Object.keys(settings.configs).length ?
-                    Object.keys(settings.configs).map((key, index) => (
+                settings.queries.length ?
+                    settings.queries.map((item, index) => (
                         <div key={index} className="flex mb-2 space-x-2">
                             <TextField
                                 className="w-1/4"
                                 size="small"
-                                name={`key-${key}`}
-                                value={key}
-                                onChange={ConfigSettings.update}
+                                name={`key-${Object.keys(item)[0]}`}
+                                value={Object.keys(item)[0]}
+                                onChange={(event) => QuerySettings.update(event, index)}
                             />
                             <TextField
                                 className="w-7/12"
                                 size="small"
-                                name={`value-${key}`}
-                                value={settings.configs[key]}
-                                onChange={ConfigSettings.update}
+                                name={`value-${Object.keys(item)[0]}`}
+                                value={Object.values(item)[0]}
+                                onChange={(event) => QuerySettings.update(event, index)}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
-                                            {settings.configs[key] ? validateJSON(settings.configs[key]) ? "json:" : "text:" : null}
+                                            {Object.values(item)[0] ? validateJSON(Object.values(item)[0]) ? "json:" : "text:" : null}
                                         </InputAdornment>
                                     )
                                 }}
                             />
-                            <IconButton onClick={() => ConfigSettings.delete(key)}>
+                            <IconButton onClick={() => QuerySettings.delete(index)}>
                                 <DeleteIcon />
                             </IconButton>
 

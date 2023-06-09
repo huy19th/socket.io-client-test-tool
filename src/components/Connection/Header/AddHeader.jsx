@@ -3,24 +3,24 @@ import { SettingsContext } from "../../../contexts/SettingsContext";
 import { TextField, Button } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 
-export default function AddConfig() {
+export default function AddHeader() {
 
-    const { ConfigSettings } = useContext(SettingsContext);
+    const { HeaderSettings } = useContext(SettingsContext);
 
     const initialState = { key: "", value: "" };
 
-    const [config, setConfig] = useState(initialState);
+    const [header, setHeader] = useState(initialState);
 
     const handleChange = ({ target: { name, value } }) => {
-        setConfig({ ...config, [name]: value });
+        setHeader({ ...header, [name]: value });
     }
 
     const handleAdd = () => {
-        if (!config.key || !config.value) {
+        if (!header.key || !header.value) {
             return alert("Please input key & value");
         }
-        ConfigSettings.add(config);
-        setConfig({ ...initialState });
+        HeaderSettings.add(header);
+        setHeader({ ...initialState });
     }
 
     return (
@@ -30,7 +30,7 @@ export default function AddConfig() {
                 size="small"
                 placeholder="key"
                 name="key"
-                value={config.key}
+                value={header.key}
                 onChange={handleChange}
             />
             <TextField
@@ -38,7 +38,7 @@ export default function AddConfig() {
                 size="small"
                 placeholder="value"
                 name="value"
-                value={config.value}
+                value={header.value}
                 onChange={handleChange}
             />
             <Button
@@ -46,7 +46,7 @@ export default function AddConfig() {
                 startIcon={<AddIcon />}
                 onClick={handleAdd}
             >
-                Config
+                Header
             </Button>
         </div>
     )

@@ -1,6 +1,8 @@
 import Host from "./Host";
 import Auth from "./Auth";
-import Config from "./Config";
+import Header from "./Header";
+import Query from "./Query";
+import Other from "./Other";
 import Card from "../UI/Card";
 import Tabs from "../UI/Tabs";
 import Connect from "./Connect";
@@ -14,7 +16,9 @@ export default function Settings() {
     const tabs = generateArray([
         ["Host", <Host />],
         ["Auth", <Auth />],
-        ["Config", <Config />],
+        ["Header", <Header />],
+        ["Query", <Query />],
+        ["Other", <Other />],
     ], "name", "el");
 
     return (
