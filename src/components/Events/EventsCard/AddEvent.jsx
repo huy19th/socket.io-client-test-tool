@@ -23,7 +23,7 @@ export default function AddEvent() {
             <TextField
                 fullWidth
                 size="small"
-                value={state}
+                value={eventName}
                 onChange={event => setEventName(event.target.value)}
             />
             <Button

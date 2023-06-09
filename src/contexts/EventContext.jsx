@@ -19,6 +19,7 @@ export const EventContext = createContext({
         static deleteArg(eventName, messageIndex, index) { };
         static updateArg(eventName, messageIndex, index, event) { };
         static beautify(eventName, messageIndex) { };
+        static deleteMessage(eventName, messageIndex) { };
     }
 });
 
@@ -75,7 +76,7 @@ export function EventContextProvider({ children }) {
             messages[eventName][messageIndex].splice(index, 1);
             this.save();
         }
-        static updateArg(eventName, messageIndex, index, { target: { value } }) {
+        static updateArg(eventName, messageIndex, { target: { value } }, index) {
             messages[eventName][messageIndex][index] = value;
             this.save();
         }
@@ -84,6 +85,10 @@ export function EventContextProvider({ children }) {
             let currentMessage = eventMessages[messageIndex];
             currentMessage = currentMessage.map(arg => beautifyStringIfValidJSON(arg));
             eventMessages.splice(messageIndex, 1, currentMessage);
+            this.save();
+        }
+        static deleteMessage(eventName, messageIndex) {
+            messages[eventName].splice(messageIndex, 1);
             this.save();
         }
     }

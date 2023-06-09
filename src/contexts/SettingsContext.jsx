@@ -5,8 +5,12 @@ export const SettingsContext = createContext({
         hosts: [],
         configs: {},
         tokens: [],
-        events: [],
-        messages: {},
+    },
+    HostSettings: class {
+        static save() { };
+        static add(config) { };
+        static delete(key) { };
+        static update(event) { };
     },
     TokenSettings: class {
         static save() { };
@@ -20,12 +24,7 @@ export const SettingsContext = createContext({
         static delete(key) { };
         static update(event) { };
     },
-    HostSettings: class {
-        static save() { };
-        static add(config) { };
-        static delete(key) { };
-        static update(event) { };
-    },
+
 });
 
 export function SettingsContextProvider({ children }) {
@@ -33,9 +32,7 @@ export function SettingsContextProvider({ children }) {
     const [settings, updateSettings] = useState({
         hosts: JSON.parse(localStorage.getItem("hosts")) || [],
         configs: JSON.parse(localStorage.getItem("configs")) || {},
-        tokens: JSON.parse(localStorage.getItem("tokens")) || [],
-        events: JSON.parse(localStorage.getItem("events")) || [],
-        messages: JSON.parse(localStorage.getItem("messages")) || {},
+        tokens: JSON.parse(localStorage.getItem("tokens")) || []
     });
 
     const saveSettings = () => {

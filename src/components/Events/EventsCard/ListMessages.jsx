@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { SettingsContext } from "../../../contexts/SettingsContext";
 import { EventContext } from "../../../contexts/EventContext";
 import { SocketContext } from "../../../contexts/SocketContext";
 import { TextField, IconButton, Tooltip } from "@mui/material";

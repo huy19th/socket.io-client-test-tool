@@ -21,10 +21,10 @@ export default function MessageDetailCard({ eventIndex, messageIndex }) {
     let currentMessage = eventMessages[messageIndex];
 
     let options = generateArray([
-        ["add arg", "top-start", <AddIcon size="small" />, addArg],
+        ["add arg", "top-start", <AddIcon size="small" />, () => MessageSettings.addArg(eventName, messageIndex)],
         ["beautify", "top-start", <AutoFixHighIcon size="small" />, () => MessageSettings.beautify(eventName, messageIndex)],
         ["emit", "top-start", <UploadIcon size="small" />, () => emitEvent(eventName, currentMessage)],
-        ["delete", "top-start", <DeleteIcon size="small" />, deleteMessage]
+        ["delete", "top-start", <DeleteIcon size="small" />, () => MessageSettings.deleteMessage(eventName, messageIndex)]
     ], "title", "placement", "el", "handleClick");
 
     return (
@@ -68,7 +68,7 @@ export default function MessageDetailCard({ eventIndex, messageIndex }) {
                                             <InputAdornment
                                                 className="sizeSmall"
                                                 position="start"
-                                                onClick={() => deleteArg(index)}
+                                                onClick={() => MessageSettings.deleteArg(eventName, messageIndex, index)}
                                             >
                                                 <IconButton sx={{ padding: 0 }}>
                                                     <CloseIcon />
@@ -83,7 +83,7 @@ export default function MessageDetailCard({ eventIndex, messageIndex }) {
                                         }
                                     }}
                                     value={arg}
-                                    onChange={(event) => updateMessage(event, index)}
+                                    onChange={(event) => MessageSettings.updateArg(eventName, messageIndex, event, index)}
                                 />
                             ))
                             : null
