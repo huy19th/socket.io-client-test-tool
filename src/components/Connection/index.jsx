@@ -1,25 +1,9 @@
-import Host from "./Host";
-import Auth from "./Auth";
-import Header from "./Header";
-import Query from "./Query";
-import Other from "./Other";
-import Card from "../UI/Card";
-import Tabs from "../UI/Tabs";
-import Connect from "./Connect";
 import { Fab } from "@mui/material";
 import SettingsIcon from '@mui/icons-material/Settings';
 import FullScreenDialog from "../UI/FullScreenDialog";
-import { generateArray } from "../../ultils";
+import Configs from "./Configs";
 
 export default function Settings() {
-
-    const tabs = generateArray([
-        ["Host", <Host />],
-        ["Auth", <Auth />],
-        ["Header", <Header />],
-        ["Query", <Query />],
-        ["Other", <Other />],
-    ], "name", "el");
 
     return (
         <FullScreenDialog
@@ -40,14 +24,9 @@ export default function Settings() {
             }
             isOpen={true}
         >
-            <div className="flex justify-center bg-neutral-100">
-                <div className="justify-center w-1/2 min-w-[700px] pt-6">
-                    <Connect />
-                    <Card raised className="h-[calc(100vh-180px)] min-h-[450px] bg-white border-[1px] border-neutral-500">
-                        <h1 className="text-center text-2xl pb-5">Settings</h1>
-                        <Tabs tabs={tabs} className="w-full" />
-                    </Card>
-                </div>
+            <div className="w-full flex space-x-3 py-3 h-full">
+                {/* <Connect /> */}
+                <Configs />
             </div>
         </FullScreenDialog>
     )

@@ -35,8 +35,10 @@ export function OptionsContextProvider({ children }) {
             case "others":
                 options[key][Object.keys(value)[0]] = options[key][Object.keys(value)[0]] === Object.values(value)[0] ? undefined : Object.values(value)[0];
                 break;
+            default:
+                break;
         }
-        setOptions({...options});
+        setOptions({ ...options });
         localStorage.setItem("options", JSON.stringify(options));
     }
 
