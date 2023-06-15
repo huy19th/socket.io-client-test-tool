@@ -2,6 +2,7 @@ import { Fab } from "@mui/material";
 import SettingsIcon from '@mui/icons-material/Settings';
 import FullScreenDialog from "../UI/FullScreenDialog";
 import Configs from "./Configs";
+import Connect from "./Connect";
 
 export default function Settings() {
 
@@ -24,9 +25,9 @@ export default function Settings() {
             }
             isOpen={true}
         >
-            <div className="w-full flex space-x-3 py-3 h-full">
-                {/* <Connect /> */}
+            <div className="w-full flex space-x-3 py-3 h-full px-[60px]">
                 <Configs />
+                <Connect />
             </div>
         </FullScreenDialog>
     )

@@ -43,7 +43,7 @@ export default function Connect() {
     }
 
     return (
-        <div className="mb-5 w-full flex justify-between space-x-1 justify-between">
+        <div className="mb-5 w-full flex justify-between space-x-1">
             <Select
                 className="bg-white w-1/2"
                 helperText="Host"
