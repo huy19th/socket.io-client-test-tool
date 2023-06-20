@@ -39,7 +39,7 @@ export function SocketContextProvider({ children }) {
                 waitTime--;
                 if (socketIo.connected) {
                     resolve(true);
-                    alert("Connected");
+                    // alert("Connected");
                     listenSocket();
                     clearInterval(waitConnect);
                 }
