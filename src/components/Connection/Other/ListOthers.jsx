@@ -7,7 +7,7 @@ import { validateJSON } from "../../../ultils";
 
 export default function ListOthers() {
 
-    const { settings, QuerySettings } = useContext(SettingsContext);
+    const { settings, OtherSettings } = useContext(SettingsContext);
 
     const { options, updateOptions } = useContext(OptionsContext);
 
@@ -26,14 +26,14 @@ export default function ListOthers() {
                                 size="small"
                                 name={`key-${Object.keys(item)[0]}`}
                                 value={Object.keys(item)[0]}
-                                onChange={(event) => QuerySettings.update(event, index)}
+                                onChange={(event) => OtherSettings.update(event, index)}
                             />
                             <TextField
                                 className="w-7/12"
                                 size="small"
                                 name={`value-${Object.keys(item)[0]}`}
                                 value={Object.values(item)[0]}
-                                onChange={(event) => QuerySettings.update(event, index)}
+                                onChange={(event) => OtherSettings.update(event, index)}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -42,7 +42,7 @@ export default function ListOthers() {
                                     )
                                 }}
                             />
-                            <IconButton onClick={() => QuerySettings.delete(index)}>
+                            <IconButton onClick={() => OtherSettings.delete(index)}>
                                 <DeleteIcon />
                             </IconButton>
 
