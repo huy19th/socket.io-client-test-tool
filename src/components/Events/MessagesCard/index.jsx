@@ -10,7 +10,7 @@ export default function MessagesCard() {
     const {updateListMessages} = useContext(ListMessagesConext);
 
     return (
-        <Card className="border-[1px] h-1/3 border-neutral-500 bg-white w-1/2 h-full">
+        <Card className="border-[1px] border-neutral-500 bg-white w-1/2 h-full">
             <h1 className="text-center text-3xl font-medium">Messages</h1>
             <Tooltip
                 title="Clear Messages"
