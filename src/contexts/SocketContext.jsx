@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { io } from "socket.io-client";
 import { parseAllArrayElements } from "../ultils";
 
@@ -7,8 +7,8 @@ export const SocketContext = createContext({
     connectSocket: (host, configs) => { },
     disconnectSocket: () => { },
     emittedMessages: {},
-    emitEvents: (eventName, args) => { },
-    emitAllMessagesEvent: (eventName, messages) => {},
+    emitEvent: (eventName, args) => { },
+    emitAllMessagesEvent: (eventName, messages) => { },
     receviedMessage: {},
 });
 
@@ -32,24 +32,20 @@ export function SocketContextProvider({ children }) {
 
     const connectSocket = async (host, configs) => {
         let socketIo = io(host, configs);
-        setSocket(socketIo);
-        await new Promise((resolve, reject) => {
-            let waitTime = 3;
-            let waitConnect = setInterval(() => {
-                waitTime--;
-                if (socketIo.connected) {
-                    resolve(true);
-                    // alert("Connected");
-                    listenSocket();
-                    clearInterval(waitConnect);
-                }
-                if (!waitTime) {
-                    socketIo.disconnect();
-                    alert("Connect failed");
-                    clearInterval(waitConnect);
-                }
-            }, 1000);
-        });
+        let waitTime = 3;
+        let waitConnect = setInterval(() => {
+            waitTime--;
+            if (socketIo.connected) {
+                // alert("Connected");
+                setSocket(socketIo);
+                clearInterval(waitConnect);
+            }
+            if (!waitTime) {
+                socketIo.disconnect();
+                alert("Connect failed");
+                clearInterval(waitConnect);
+            }
+        }, 1000);
     }
 
     const listenSocket = () => {
@@ -64,7 +60,7 @@ export function SocketContextProvider({ children }) {
         });
     }
 
-    const emitEvents = (eventName, args) => {
+    const emitEvent = (eventName, args) => {
         setEmittedMessages([{ isEmit: true, eventName, args }]);
         let parsedArgs = parseAllArrayElements(args);
         socket.emit(eventName, ...parsedArgs);
@@ -80,6 +76,23 @@ export function SocketContextProvider({ children }) {
         });
     }
 
+    useEffect(() => {
+        if (socket) {
+            if (socket.connected) {
+                alert('Connected')
+                socket.onAny((event, ...args) => {
+                    console.log(event);
+                    console.log(...args);
+                    args = args.map(item => JSON.stringify(item));
+                    setReceivedMessage({ isEmit: false, eventName: event, args });
+                });
+                socket.on("disconnect", (reason) => {
+                    console.log(reason);
+                });
+            }
+        }
+    }, [socket]);
+
     return (
         <SocketContext.Provider
             value={{
@@ -87,7 +100,7 @@ export function SocketContextProvider({ children }) {
                 connectSocket,
                 disconnectSocket,
                 emittedMessages,
-                emitEvents,
+                emitEvent,
                 emitAllMessagesEvent,
                 receviedMessage,
             }}
